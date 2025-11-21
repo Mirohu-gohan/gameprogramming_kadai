@@ -1,74 +1,92 @@
 #include <Windows.h>
+#include "Dx12.h" 
+
+// グローバルにDx12インスタンスを定義
+Dx12 g_dx12;
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     switch (uMsg)
     {
-    case WM_DESTROY:  // ×ボタンが押された時
-        PostQuitMessage(0);  // 「アプリを終了します」とWindowsに通知
+    case WM_DESTROY:
+        PostQuitMessage(0);
         return 0;
-    case WM_PAINT:    // ウィンドウの再描画が必要な時
-        // 画面を更新する処理をここに書く
-        return 0;
-    case WM_KEYDOWN:  // キーが押された時
-        // キー入力の処理をここに書く
+    case WM_PAINT:
+        // ★ 修正：BeginPaint/EndPaintで描画領域を「検証済み」とマークする
+    {
+        PAINTSTRUCT ps;
+        // BeginPaintとEndPaintの呼び出しにより、Windowsに対して
+        // このウィンドウの描画領域が処理されたことを通知する。
+        BeginPaint(hwnd, &ps);
+        EndPaint(hwnd, &ps);
         return 0;
     }
-    // 自分で処理しないメッセージはWindowsに任せる
+
+    case WM_KEYDOWN:
+        return 0;
+    }
     return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 
 int WINAPI WinMain(
-    HINSTANCE hInstance,      // アプリケーションの識別番号
-    HINSTANCE hPrevInstance,  // 基本使わなくていい
-    LPSTR lpCmdLine,          // コマンドライン引数（起動時のオプション）
-    int nCmdShow // ウィンドウの表示方法（最大化、最小化など）
+    HINSTANCE hInstance,
+    HINSTANCE hPrevInstance,
+    LPSTR lpCmdLine,
+    int nCmdShow
 )
 {
-
-    //main
+    // --- 1. ウィンドウクラス登録・作成 ---
     WNDCLASS wc{};
-    wc.lpfnWndProc = WindowProc;           // ウィンドウプロシージャを指定（後述）
-    wc.hInstance = hInstance;              // アプリケーションインスタンス
-    wc.lpszClassName = "GameWindow";      // ウィンドウクラス名
-    wc.hCursor = LoadCursor(NULL, IDC_ARROW);  // マウスカーソル
-    wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);  // 背景色
-
-    RegisterClass(&wc);  // Windowsに登録
+    wc.lpfnWndProc = WindowProc;
+    wc.hInstance = hInstance;
+    wc.lpszClassName = TEXT("GameWindow");
+    wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+    wc.hbrBackground = nullptr;
+    RegisterClass(&wc);
 
     HWND hwnd = CreateWindow(
-        "GameWindow",        // ウィンドウクラス名
-        "My Game",           // ウィンドウタイトル
-        WS_OVERLAPPEDWINDOW,  // ウィンドウスタイル
-        CW_USEDEFAULT, CW_USEDEFAULT,  // 位置（自動）
-        800, 600,            // サイズ（幅、高さ）
-        NULL, NULL,          // 親ウィンドウ、メニュー
-        hInstance,           // インスタンス
-        NULL                 // 追加データ
+        TEXT("GameWindow"),
+        TEXT("My Game"),
+        WS_OVERLAPPEDWINDOW,
+        CW_USEDEFAULT, CW_USEDEFAULT,
+        1280, 720,
+        NULL, NULL,
+        hInstance,
+        NULL
     );
 
-    ShowWindow(hwnd, nCmdShow);  // ウィンドウを表示
+    ShowWindow(hwnd, nCmdShow);
+
+    // --- 2. DirectX 12 初期化の実行 ---
+    if (!g_dx12.Initialize(hwnd)) {
+        // ★ 修正: TEXT()マクロを適用
+        MessageBox(hwnd, TEXT("DirectX12 の初期化に失敗しました。"), TEXT("エラー"), MB_OK);
+        return 1;
+    }
+
+    // --- 3. メッセージループ ---
     bool nextframe = true;
     while (nextframe)
     {
+        MSG msg{};
 
-
-        MSG msg{};  // メッセージを格納する構造体
-
-        while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))  // メッセージが来るまで待機
+        while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
         {
-            if (msg.message != WM_QUIT)
+            if (msg.message == WM_QUIT)
             {
                 nextframe = false;
+                break;
             }
-            TranslateMessage(&msg);  // キーボードメッセージを使いやすい形に変換
-            DispatchMessage(&msg);   // 適切なウィンドウプロシージャに送信
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
         }
+
+        if (!nextframe) break;
+
+        // ★ 毎フレームの描画処理を実行
+        g_dx12.Render();
     }
 
-    // ここにメインの処理を書く
-    // 1. ウィンドウクラス登録
-    // 2. ウィンドウ作成
-    // 3. メッセージループ
+    // Dx12デストラクタでReleaseAll()が呼ばれる
     return 0;
 }
