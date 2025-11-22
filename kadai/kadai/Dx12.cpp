@@ -1,6 +1,8 @@
 #include "Dx12.h"
 #include <Windows.h> // ★ 追加: OutputDebugString, CreateEventなどのWindows APIのために必須
 
+
+
 #pragma comment(lib, "d3d12.lib") 
 #pragma comment(lib, "dxgi.lib")
 
@@ -283,10 +285,10 @@ void Dx12::Render() {
     barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
     m_commandList->ResourceBarrier(1, &barrier);
 
-    // 画面クリア（青色）
+    // 画面クリア(Windowの色）
     D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = m_rtvHeap->GetCPUDescriptorHandleForHeapStart();
     rtvHandle.ptr += m_currentBackBufferIndex * m_rtvDescriptorSize;
-    float clearColor[] = { 0.0f, 0.0f, 1.0f, 1.0f };
+    float clearColor[] = { 0.0f, 0.0f, 1.0f, 0.0f };
     m_commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
 
     // リソースバリア：Render Target → Present
