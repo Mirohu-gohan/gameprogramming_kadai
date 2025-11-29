@@ -13,24 +13,87 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ソース ファイル\directX">
+      <UniqueIdentifier>{13a253d0-bf8e-4a25-ba83-59ecd643ff94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\entry">
+      <UniqueIdentifier>{f093d32a-25f6-4a4c-b4eb-6f78d14b5360}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\draw_resource">
+      <UniqueIdentifier>{0b371ad5-9c25-4701-a6d6-ff8f0ca37367}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Dx12.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Window.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="draw_polygon.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="DXGI.cpp">
+      <Filter>ソース ファイル\directX</Filter>
+    </ClCompile>
+    <ClCompile Include="command_allocator.cpp">
+      <Filter>ソース ファイル\directX</Filter>
+    </ClCompile>
+    <ClCompile Include="command_list.cpp">
+      <Filter>ソース ファイル\directX</Filter>
+    </ClCompile>
+    <ClCompile Include="command_queue.cpp">
+      <Filter>ソース ファイル\directX</Filter>
+    </ClCompile>
+    <ClCompile Include="descriptor_heap.cpp">
+      <Filter>ソース ファイル\directX</Filter>
+    </ClCompile>
+    <ClCompile Include="device.cpp">
+      <Filter>ソース ファイル\directX</Filter>
+    </ClCompile>
+    <ClCompile Include="fence.cpp">
+      <Filter>ソース ファイル\directX</Filter>
+    </ClCompile>
+    <ClCompile Include="fence.h">
+      <Filter>ソース ファイル\directX</Filter>
+    </ClCompile>
+    <ClCompile Include="render_target.cpp">
+      <Filter>ソース ファイル\directX</Filter>
+    </ClCompile>
+    <ClCompile Include="swap_chain.cpp">
+      <Filter>ソース ファイル\directX</Filter>
+    </ClCompile>
+    <ClCompile Include="entry.cpp">
+      <Filter>ソース ファイル\entry</Filter>
+    </ClCompile>
+    <ClCompile Include="triangle_polygon.cpp">
+      <Filter>ソース ファイル\draw_resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Dx12.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="DXGI.h">
+      <Filter>ソース ファイル\directX</Filter>
     </ClInclude>
-    <ClInclude Include="draw_polygon.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="command_allocator.h">
+      <Filter>ソース ファイル\directX</Filter>
+    </ClInclude>
+    <ClInclude Include="command_list.h">
+      <Filter>ソース ファイル\directX</Filter>
+    </ClInclude>
+    <ClInclude Include="command_queue.h">
+      <Filter>ソース ファイル\directX</Filter>
+    </ClInclude>
+    <ClInclude Include="descriptor_heap.h">
+      <Filter>ソース ファイル\directX</Filter>
+    </ClInclude>
+    <ClInclude Include="device.h">
+      <Filter>ソース ファイル\directX</Filter>
+    </ClInclude>
+    <ClInclude Include="render_target.h">
+      <Filter>ソース ファイル\directX</Filter>
+    </ClInclude>
+    <ClInclude Include="swap_chain.h">
+      <Filter>ソース ファイル\directX</Filter>
+    </ClInclude>
+    <ClInclude Include="triangle_polygon.h">
+      <Filter>ソース ファイル\draw_resource</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
