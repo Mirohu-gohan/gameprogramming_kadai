@@ -11,13 +11,13 @@
  */
 DXGI::~DXGI() {
     // DXGIファクトリーの解放
-    if (DXGI::dxgiFactory_) {
-        DXGI::dxgiFactory_->Release();
+    if (dxgiFactory_) {
+        dxgiFactory_->Release();
         dxgiFactory_ = nullptr;
     }
     // アダプタの解放
-    if (DXGI::dxgiAdapter_) {
-        DXGI::dxgiAdapter_->Release();
+    if (dxgiAdapter_) {
+        dxgiAdapter_->Release();
         dxgiAdapter_ = nullptr;
     }
 }
@@ -97,7 +97,6 @@ DXGI::~DXGI() {
 [[nodiscard]] IDXGIFactory4* DXGI::factory() const noexcept {
     if (!dxgiFactory_) {
         assert(false && "DXGIファクトリーが未作成です");
-        return nullptr;
     }
 
     return dxgiFactory_;
@@ -111,7 +110,6 @@ DXGI::~DXGI() {
 [[nodiscard]] IDXGIAdapter1* DXGI::displayAdapter() const noexcept {
     if (!dxgiAdapter_) {
         assert(false && "ディスプレイアダプターが未作成です");
-        return nullptr;
     }
 
     return dxgiAdapter_;

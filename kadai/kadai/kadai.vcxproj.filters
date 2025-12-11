@@ -25,6 +25,9 @@
     <Filter Include="ソース ファイル\Windoow">
       <UniqueIdentifier>{8435d424-5a0c-404d-8f45-57f551b92751}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\asset">
+      <UniqueIdentifier>{fcb2e2ff-8419-41e3-8e07-2a727b8b4a31}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXGI.cpp">
@@ -116,5 +119,10 @@
     <ClInclude Include="pipline_state_object.h">
       <Filter>ソース ファイル\directX</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="shader.hlsl">
+      <Filter>ソース ファイル\asset</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

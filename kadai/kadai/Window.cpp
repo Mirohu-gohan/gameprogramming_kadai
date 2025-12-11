@@ -22,52 +22,42 @@ namespace {
     }
 }  // namespace
 
-// 修正: std::string_view を std::wstring に変換するヘルパー関数を追加  
-#include <string>  
-#include <string_view>  
-#include <windows.h>  
+// 修正: std::string_view を std::wstring に変換して、LPCWSTR に対応させる  
+[[nodiscard]] HRESULT Window::create(HINSTANCE instance, int width, int height, std::string_view name) noexcept {
+    // ウィンドウ名を std::wstring に変換  
+    std::wstring wname(name.begin(), name.end());
 
-namespace {  
-    std::wstring toWideString(std::string_view str) {  
-        int size_needed = MultiByteToWideChar(CP_UTF8, 0, str.data(), static_cast<int>(str.size()), nullptr, 0);  
-        std::wstring wstr(size_needed, 0);  
-        MultiByteToWideChar(CP_UTF8, 0, str.data(), static_cast<int>(str.size()), &wstr[0], size_needed);  
-        return wstr;  
-    }  
-}  
-
-[[nodiscard]] HRESULT Window::create(HINSTANCE instance, int width, int height, std::string_view name) noexcept {  
     // ウィンドウの定義  
-    WNDCLASS wc{};  
-    wc.lpfnWndProc = WindowProc;  
-    wc.hInstance = instance;  
-    wc.lpszClassName = toWideString(name).c_str();  // 修正: std::wstring に変換  
-    wc.hCursor = LoadCursor(nullptr, IDC_ARROW);  
-    wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);  
+    WNDCLASS wc{};
+    wc.lpfnWndProc = WindowProc;
+    wc.hInstance = instance;
+    wc.lpszClassName = wname.c_str();  // 修正: wname.c_str() を使用  
+    wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
+    wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
 
     // ウィンドウクラスの登録  
-    RegisterClass(&wc);  
+    RegisterClass(&wc);
 
     // ウィンドウの作成  
-    handle_ = CreateWindow(wc.lpszClassName, wc.lpszClassName,  
-        WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, width, height,  
-        nullptr, nullptr, instance, nullptr);  
-    if (!handle_) {  
-        return E_FAIL;  
-    }  
+    handle_ = CreateWindow(wc.lpszClassName, wc.lpszClassName,
+        WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, width, height,
+        nullptr, nullptr, instance, nullptr);
+    if (!handle_) {
+        return E_FAIL;
+    }
 
     // ウインドウの表示  
-    ShowWindow(handle_, SW_SHOW);  
+    ShowWindow(handle_, SW_SHOW);
 
     // ウィンドウを更新  
-    UpdateWindow(handle_);  
+    UpdateWindow(handle_);
 
     // ウィンドウのサイズを保存  
-    witdh_ = width;  
-    height_ = height;  
+    witdh_ = width;
+    height_ = height;
 
     // 成功を返す  
-    return S_OK;  
+    return S_OK;
 }
 
 //---------------------------------------------------------------------------------
