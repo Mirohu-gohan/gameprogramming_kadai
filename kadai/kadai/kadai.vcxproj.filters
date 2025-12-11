@@ -22,14 +22,11 @@
     <Filter Include="ソース ファイル\draw_resource">
       <UniqueIdentifier>{0b371ad5-9c25-4701-a6d6-ff8f0ca37367}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Windoow">
+      <UniqueIdentifier>{8435d424-5a0c-404d-8f45-57f551b92751}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Window.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Window.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="DXGI.cpp">
       <Filter>ソース ファイル\directX</Filter>
     </ClCompile>
@@ -66,6 +63,21 @@
     <ClCompile Include="triangle_polygon.cpp">
       <Filter>ソース ファイル\draw_resource</Filter>
     </ClCompile>
+    <ClCompile Include="shader.cpp">
+      <Filter>ソース ファイル\directX</Filter>
+    </ClCompile>
+    <ClCompile Include="root_signature.cpp">
+      <Filter>ソース ファイル\directX</Filter>
+    </ClCompile>
+    <ClCompile Include="pipline_state_object.cpp">
+      <Filter>ソース ファイル\directX</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>ソース ファイル\Windoow</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.h">
+      <Filter>ソース ファイル\Windoow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DXGI.h">
@@ -94,6 +106,15 @@
     </ClInclude>
     <ClInclude Include="triangle_polygon.h">
       <Filter>ソース ファイル\draw_resource</Filter>
+    </ClInclude>
+    <ClInclude Include="shader.h">
+      <Filter>ソース ファイル\directX</Filter>
+    </ClInclude>
+    <ClInclude Include="root_signature.h">
+      <Filter>ソース ファイル\directX</Filter>
+    </ClInclude>
+    <ClInclude Include="pipline_state_object.h">
+      <Filter>ソース ファイル\directX</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

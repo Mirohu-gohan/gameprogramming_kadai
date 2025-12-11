@@ -22,47 +22,52 @@ namespace {
     }
 }  // namespace
 
-//---------------------------------------------------------------------------------
-/**
- * @brief	ウィンドウの生成
- * @param	instance	インスタンスハンドル
- * @param	width		横幅
- * @param	height		縦幅
- * @param	name		ウィンドウ名
- * @return	生成の成否
- */
-[[nodiscard]] HRESULT Window::create(HINSTANCE instance, int width, int height, std::string_view name) noexcept {
-    // ウィンドウの定義
-    WNDCLASS wc{};
-    wc.lpfnWndProc = WindowProc;
-    wc.hInstance = instance;
-    wc.lpszClassName = TEXT("GameWindow");
-    wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
-    wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
+// 修正: std::string_view を std::wstring に変換するヘルパー関数を追加  
+#include <string>  
+#include <string_view>  
+#include <windows.h>  
 
-    // ウィンドウクラスの登録
-    RegisterClass(&wc);
+namespace {  
+    std::wstring toWideString(std::string_view str) {  
+        int size_needed = MultiByteToWideChar(CP_UTF8, 0, str.data(), static_cast<int>(str.size()), nullptr, 0);  
+        std::wstring wstr(size_needed, 0);  
+        MultiByteToWideChar(CP_UTF8, 0, str.data(), static_cast<int>(str.size()), &wstr[0], size_needed);  
+        return wstr;  
+    }  
+}  
 
-    // ウィンドウの作成
-    handle_ = CreateWindow(wc.lpszClassName, wc.lpszClassName,
-        WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, width, height,
-        nullptr, nullptr, instance, nullptr);
-    if (!handle_) {
-        return E_FAIL;
-    }
+[[nodiscard]] HRESULT Window::create(HINSTANCE instance, int width, int height, std::string_view name) noexcept {  
+    // ウィンドウの定義  
+    WNDCLASS wc{};  
+    wc.lpfnWndProc = WindowProc;  
+    wc.hInstance = instance;  
+    wc.lpszClassName = toWideString(name).c_str();  // 修正: std::wstring に変換  
+    wc.hCursor = LoadCursor(nullptr, IDC_ARROW);  
+    wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);  
 
-    // ウインドウの表示
-    ShowWindow(handle_, SW_SHOW);
+    // ウィンドウクラスの登録  
+    RegisterClass(&wc);  
 
-    // ウィンドウを更新
-    UpdateWindow(handle_);
+    // ウィンドウの作成  
+    handle_ = CreateWindow(wc.lpszClassName, wc.lpszClassName,  
+        WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, width, height,  
+        nullptr, nullptr, instance, nullptr);  
+    if (!handle_) {  
+        return E_FAIL;  
+    }  
 
-    // ウィンドウのサイズを保存
-    witdh_ = width;
-    height_ = height;
+    // ウインドウの表示  
+    ShowWindow(handle_, SW_SHOW);  
 
-    // 成功を返す
-    return S_OK;
+    // ウィンドウを更新  
+    UpdateWindow(handle_);  
+
+    // ウィンドウのサイズを保存  
+    witdh_ = width;  
+    height_ = height;  
+
+    // 成功を返す  
+    return S_OK;  
 }
 
 //---------------------------------------------------------------------------------

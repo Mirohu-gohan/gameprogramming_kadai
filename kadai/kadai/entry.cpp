@@ -1,13 +1,23 @@
 // ウィンドウアプリケーション
-#include <cassert>
-#include <wtypes.h>
-#include <d3d12.h>
+
+#include "window.h"
+
+#include "device.h"
+#include "DXGI.h"
+#include "command_allocator.h"
 #include "command_list.h"
 #include "command_queue.h"
+#include "swap_chain.h"
 #include "descriptor_heap.h"
 #include "render_target.h"
-#include "Window.h"
 #include "fence.h"
+#include "root_signature.h"
+#include "shader.h"
+#include "pipline_state_object.h"
+
+#include "triangle_polygon.h"
+
+#include <cassert>
 
 class Application final {
 public:
@@ -95,6 +105,29 @@ public:
             return false;
         }
 
+        //
+
+        // 三角形ポリゴンの生成
+        if (!trianglePolygonInstance_.create(deviceInstance_)) {
+            assert(false && "三角形ポリゴンの作成に失敗しました");
+            return false;
+        }
+        // ルートシグネチャの生成
+        if (!rootSignatureInstance_.create(deviceInstance_)) {
+            assert(false && "ルートシグネチャの作成に失敗しました");
+            return false;
+        }
+        // シェーダーの生成
+        if (!shaderInstance_.create(deviceInstance_)) {
+            assert(false && "シェーダーの作成に失敗しました");
+            return false;
+        }
+        // パイプラインステートオブジェクトの生成
+        if (!piplineStateObjectInstance_.create(deviceInstance_, shaderInstance_, rootSignatureInstance_)) {
+            assert(false && "パイプラインステートオブジェクトの作成に失敗しました");
+            return false;
+        }
+
         return true;
     }
 
@@ -126,8 +159,39 @@ public:
             commandListInstance_.get()->OMSetRenderTargets(1, handles, false, nullptr);
 
             // レンダーターゲットのクリア
-            const float clearColor[] = { 0.0f, 1.0f, 0.0f, 1.0f };  // 赤色でクリア
+            const float clearColor[] = { 0.2f, 0.2f, 0.2f, 1.0f };  // クリア
             commandListInstance_.get()->ClearRenderTargetView(handles[0], clearColor, 0, nullptr);
+
+            //-------------------------------------------------
+
+            // パイプラインステートの設定
+            commandListInstance_.get()->SetPipelineState(piplineStateObjectInstance_.get());
+            // ルートシグネチャの設定
+            commandListInstance_.get()->SetGraphicsRootSignature(rootSignatureInstance_.get());
+
+            // ビューポートの設定
+            const auto [w, h] = windowInstance_.size();
+            D3D12_VIEWPORT viewport{};
+            viewport.TopLeftX = 0.0f;
+            viewport.TopLeftY = 0.0f;
+            viewport.Width = static_cast<float>(w);
+            viewport.Height = static_cast<float>(h);
+            viewport.MinDepth = 0.0f;
+            viewport.MaxDepth = 1.0f;
+            commandListInstance_.get()->RSSetViewports(1, &viewport);
+
+            // シザー矩形の設定
+            D3D12_RECT scissorRect{};
+            scissorRect.left = 0;
+            scissorRect.top = 0;
+            scissorRect.right = w;
+            scissorRect.bottom = h;
+            commandListInstance_.get()->RSSetScissorRects(1, &scissorRect);
+
+            // ポリゴンの描画
+            trianglePolygonInstance_.draw(commandListInstance_);
+
+            //-------------------------------------------------
 
             // リソースバリアでレンダーターゲットを RenderTarget から Present へ変更
             auto rtToP = resourceBarrier(renderTargetInstance_.get(backBufferIndex), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
@@ -147,7 +211,6 @@ public:
             commandQueueInstance_.get()->Signal(fenceInstance_.get(), nextFenceValue_);
             frameFenceValue_[backBufferIndex] = nextFenceValue_;
             nextFenceValue_++;
-
         }
 
         // ループを抜けるとウィンドウを閉じる
@@ -187,6 +250,13 @@ private:
     Fence  fenceInstance_{};       /// フェンスインスタンス
     UINT64 frameFenceValue_[2]{};  /// 現在のフレームのフェンス値
     UINT64 nextFenceValue_ = 1;    /// 次のフレームのフェンス値
+
+    //
+
+    RootSignature      rootSignatureInstance_{};       /// ルートシグネチャインスタンス
+    Shader             shaderInstance_{};              /// シェーダーインスタンス
+    PiplineStateObject piplineStateObjectInstance_{};  /// パイプラインステートオブジェクトインスタンス
+    TrianglePolygon    trianglePolygonInstance_{};     /// 三角形ポリゴンインスタンス
 };
 
 //---------------------------------------------------------------------------------
