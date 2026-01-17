@@ -36,6 +36,7 @@
     <ClCompile Include="triangle_polygon.cpp" />
     <ClCompile Include="Window.h" />
     <ClCompile Include="Window.cpp" />
+    <ClCompile Include="square_po%3bygon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="command_allocator.h" />
@@ -50,6 +51,7 @@
     <ClInclude Include="shader.h" />
     <ClInclude Include="swap_chain.h" />
     <ClInclude Include="triangle_polygon.h" />
+    <ClInclude Include="square_polygon.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader.hlsl" />
@@ -143,6 +145,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -158,6 +161,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

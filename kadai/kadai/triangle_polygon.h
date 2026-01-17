@@ -1,4 +1,4 @@
-// OŠpŒ`ƒ|ƒŠƒSƒ“ƒNƒ‰ƒX
+ï»¿// ä¸‰è§’å½¢ãƒãƒªã‚´ãƒ³ã‚¯ãƒ©ã‚¹
 
 #pragma once
 
@@ -7,34 +7,34 @@
 
 //---------------------------------------------------------------------------------
 /**
- * @brief	ƒ|ƒŠƒSƒ“ƒNƒ‰ƒX
+ * @brief	ãƒãƒªã‚´ãƒ³ã‚¯ãƒ©ã‚¹
  */
 class TrianglePolygon final {
 public:
     //---------------------------------------------------------------------------------
     /**
-     * @brief    ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * @brief    ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     TrianglePolygon() = default;
 
     //---------------------------------------------------------------------------------
     /**
-     * @brief    ƒfƒXƒgƒ‰ƒNƒ^
+     * @brief    ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     ~TrianglePolygon();
 
     //---------------------------------------------------------------------------------
     /**
-     * @brief	ƒ|ƒŠƒSƒ“‚Ì¶¬
-     * @param	device	ƒfƒoƒCƒXƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
-     * @return	¬Œ÷‚·‚ê‚Î true
+     * @brief	ãƒãƒªã‚´ãƒ³ã®ç”Ÿæˆ
+     * @param	device	ãƒ‡ãƒã‚¤ã‚¹ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+     * @return	æˆåŠŸã™ã‚Œã° true
      */
     [[nodiscard]] bool create(const Device& device) noexcept;
 
     //---------------------------------------------------------------------------------
     /**
-     * @brief	ƒ|ƒŠƒSƒ“‚Ì•`‰æ
-     * @param	commandList	ƒRƒ}ƒ“ƒhƒŠƒXƒg
+     * @brief	ãƒãƒªã‚´ãƒ³ã®æç”»
+     * @param	commandList	ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆ
      */
     [[nodiscard]] void draw(const CommandList& commandList) noexcept;
 
@@ -42,25 +42,25 @@ public:
 private:
     //---------------------------------------------------------------------------------
     /**
-     * @brief	’¸“_ƒoƒbƒtƒ@‚Ì¶¬
-     * @param	device	ƒfƒoƒCƒXƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
-     * @return	¬Œ÷‚·‚ê‚Î true
+     * @brief	é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
+     * @param	device	ãƒ‡ãƒã‚¤ã‚¹ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+     * @return	æˆåŠŸã™ã‚Œã° true
      */
     [[nodiscard]] bool createVertexBuffer(const Device& device) noexcept;
 
     //---------------------------------------------------------------------------------
     /**
-     * @brief	ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚Ì¶¬
-     * @param	device	ƒfƒoƒCƒXƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
-     * @return	¬Œ÷‚·‚ê‚Î true
+     * @brief	ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
+     * @param	device	ãƒ‡ãƒã‚¤ã‚¹ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+     * @return	æˆåŠŸã™ã‚Œã° true
      */
     [[nodiscard]] bool createIndexBuffer(const Device& device) noexcept;
 
 private:
-    ID3D12Resource* vertexBuffer_{};  /// ’¸“_ƒoƒbƒtƒ@
-    ID3D12Resource* indexBuffer_{};   /// ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@
+    ID3D12Resource* vertexBuffer_{};  /// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡
+    ID3D12Resource* indexBuffer_{};   /// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡
 
-    D3D12_VERTEX_BUFFER_VIEW vertexBufferView_ = {};  ///< ’¸“_ƒoƒbƒtƒ@ƒrƒ…[
-    D3D12_INDEX_BUFFER_VIEW  indexBufferView_ = {};  ///< ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@ƒrƒ…[
+    D3D12_VERTEX_BUFFER_VIEW vertexBufferView_ = {};  ///< é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼
+    D3D12_INDEX_BUFFER_VIEW  indexBufferView_ = {};  ///< ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼
 };
 

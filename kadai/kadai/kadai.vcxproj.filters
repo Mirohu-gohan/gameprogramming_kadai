@@ -81,6 +81,9 @@
     <ClCompile Include="Window.h">
       <Filter>ソース ファイル\Windoow</Filter>
     </ClCompile>
+    <ClCompile Include="square_po%3bygon.cpp">
+      <Filter>ソース ファイル\draw_resource</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DXGI.h">
@@ -107,9 +110,6 @@
     <ClInclude Include="swap_chain.h">
       <Filter>ソース ファイル\directX</Filter>
     </ClInclude>
-    <ClInclude Include="triangle_polygon.h">
-      <Filter>ソース ファイル\draw_resource</Filter>
-    </ClInclude>
     <ClInclude Include="shader.h">
       <Filter>ソース ファイル\directX</Filter>
     </ClInclude>
@@ -118,6 +118,12 @@
     </ClInclude>
     <ClInclude Include="pipline_state_object.h">
       <Filter>ソース ファイル\directX</Filter>
+    </ClInclude>
+    <ClInclude Include="triangle_polygon.h">
+      <Filter>ソース ファイル\entry</Filter>
+    </ClInclude>
+    <ClInclude Include="square_polygon.h">
+      <Filter>ソース ファイル\entry</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
