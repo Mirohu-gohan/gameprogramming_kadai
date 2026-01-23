@@ -65,7 +65,7 @@ RenderTarget::~RenderTarget() {
  * @param	index	インデックス
  * @return	ディスクリプタハンドル
  */
-[[nodiscard]] D3D12_CPU_DESCRIPTOR_HANDLE RenderTarget::getDescriptorHandle(const Device& device, const DescriptorHeap& heap, UINT index) const noexcept {
+[[nodiscard]] D3D12_CPU_DESCRIPTOR_HANDLE RenderTarget::getCpuDescriptorHandle(const Device& device, const DescriptorHeap& heap, UINT index) const noexcept {
 
     if (index >= renderTargets_.size() || !renderTargets_[index]) {
         assert(false && "不正なレンダーターゲットです");
@@ -88,7 +88,7 @@ RenderTarget::~RenderTarget() {
  * @brief	レンダーターゲットを取得する
  * @param	index	インデックス
  */
-[[nodiscard]] ID3D12Resource* RenderTarget::get(uint32_t index) const noexcept {
+[[nodiscard]] ID3D12Resource* RenderTarget::get(UINT index) const noexcept {
     if (index >= renderTargets_.size() || !renderTargets_[index]) {
         assert(false && "不正なレンダーターゲットです");
         return nullptr;

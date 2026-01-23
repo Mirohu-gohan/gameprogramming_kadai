@@ -2,7 +2,8 @@
 
 #include "triangle_polygon.h"
 #include <cassert>
-#include <DirectXMath.h>
+#include <d3d12.h>
+#include "command_list.h"
 
 namespace {
 
@@ -49,6 +50,7 @@ TrianglePolygon::~TrianglePolygon() {
     if (!createIndexBuffer(device)) {
         return false;
     }
+
     return true;
 }
 
@@ -206,7 +208,7 @@ TrianglePolygon::~TrianglePolygon() {
  * @brief	ポリゴンの描画
  * @param	commandList	コマンドリスト
  */
-[[nodiscard]] void TrianglePolygon::draw(const CommandList& commandList) noexcept {
+void TrianglePolygon::draw(const CommandList& commandList) noexcept {
     // 頂点バッファの設定
     commandList.get()->IASetVertexBuffers(0, 1, &vertexBufferView_);
     // インデックスバッファの設定
@@ -216,4 +218,3 @@ TrianglePolygon::~TrianglePolygon() {
     // 描画コマンド
     commandList.get()->DrawIndexedInstanced(3, 1, 0, 0, 0);
 }
-

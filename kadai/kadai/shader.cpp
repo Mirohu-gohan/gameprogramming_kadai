@@ -1,6 +1,4 @@
-﻿// Shader.cpp
-
-#include "shader.h"
+﻿#include "shader.h"
 #include "device.h" // Deviceクラスが必要
 #include <cassert>
 #include <string>
@@ -15,7 +13,6 @@
 /**
  * @brief	デストラクタ
  */
-//三角形
 Shader::~Shader() {
     // ComPtrを使っていないため、手動で解放
     if (vertexShader_) {
@@ -27,8 +24,6 @@ Shader::~Shader() {
         pixelShader_ = nullptr;
     }
 }
-
-
 
 //---------------------------------------------------------------------------------
 /**
@@ -72,12 +67,13 @@ Shader::~Shader() {
             char* p = static_cast<char*>(error->GetBufferPointer());
             OutputDebugStringA("VS Compile Error: ");
             OutputDebugStringA(p);
-            assert(false && "頂点シェーダのコンパイルに失敗しました (出力ウィンドウを確認)");
+            // 日本語エラーを英語に変更 (改行エラー回避)
+            assert(false && "Vertex Shader Compile Failed (Check Output Window)");
             error->Release();
             error = nullptr;
         }
         else {
-            assert(false && "頂点シェーダのコンパイルに失敗しました (ファイルパス/内容を確認)");
+            assert(false && "Vertex Shader Compile Failed (File Not Found or Path Error)");
         }
     }
     if (error) { // 失敗しなかったが、警告などでBLOBが生成された場合の解放処理
@@ -106,12 +102,13 @@ Shader::~Shader() {
             char* p = static_cast<char*>(error->GetBufferPointer());
             OutputDebugStringA("PS Compile Error: ");
             OutputDebugStringA(p);
-            assert(false && "ピクセルシェーダのコンパイルに失敗しました (出力ウィンドウを確認)");
+            // 日本語エラーを英語に変更
+            assert(false && "Pixel Shader Compile Failed (Check Output Window)");
             error->Release();
             error = nullptr;
         }
         else {
-            assert(false && "ピクセルシェーダのコンパイルに失敗しました (ファイルパス/内容を確認)");
+            assert(false && "Pixel Shader Compile Failed (File Not Found or Path Error)");
         }
     }
     if (error) {
@@ -130,9 +127,8 @@ Shader::~Shader() {
  */
 [[nodiscard]] ID3DBlob* Shader::vertexShader() const noexcept {
     if (!vertexShader_) {
-        assert(false && "頂点シェーダが未作成です");
+        assert(false && "Vertex Shader is nullptr");
     }
-
     return vertexShader_;
 }
 
@@ -143,8 +139,7 @@ Shader::~Shader() {
  */
 [[nodiscard]] ID3DBlob* Shader::pixelShader() const noexcept {
     if (!pixelShader_) {
-        assert(false && "ピクセルシェーダが未作成です");
+        assert(false && "Pixel Shader is nullptr");
     }
-
     return pixelShader_;
 }

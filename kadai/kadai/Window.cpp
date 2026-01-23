@@ -1,6 +1,6 @@
 // ウィンドウ制御クラスの実装
-
 #include "window.h"
+#include "input.h"
 
 namespace {
     //---------------------------------------------------------------------------------
@@ -22,41 +22,57 @@ namespace {
     }
 }  // namespace
 
-// 修正: std::string_view を std::wstring に変換して、LPCWSTR に対応させる  
+//---------------------------------------------------------------------------------
+/**
+ * @brief	ウィンドウの生成
+ * @param	instance	インスタンスハンドル
+ * @param	width		横幅
+ * @param	height		縦幅
+ * @param	name		ウィンドウ名
+ * @return	生成の成否
+ */
 [[nodiscard]] HRESULT Window::create(HINSTANCE instance, int width, int height, std::string_view name) noexcept {
-    // ウィンドウ名を std::wstring に変換  
-    std::wstring wname(name.begin(), name.end());
+   
+    WNDCLASSA wc{};
 
-    // ウィンドウの定義  
-    WNDCLASS wc{};
     wc.lpfnWndProc = WindowProc;
     wc.hInstance = instance;
-    wc.lpszClassName = wname.c_str();  // 修正: wname.c_str() を使用  
+
+    // これで char* 型の name.data() を代入できます
+    wc.lpszClassName = name.data();
+
     wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
     wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
 
-    // ウィンドウクラスの登録  
-    RegisterClass(&wc);
+    
+    RegisterClassA(&wc);
 
-    // ウィンドウの作成  
-    handle_ = CreateWindow(wc.lpszClassName, wc.lpszClassName,
-        WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, width, height,
-        nullptr, nullptr, instance, nullptr);
+    handle_ = CreateWindowA(
+        wc.lpszClassName,
+        wc.lpszClassName,
+        WS_OVERLAPPEDWINDOW,
+        CW_USEDEFAULT,
+        CW_USEDEFAULT,
+        width,
+        height,
+        nullptr,
+        nullptr,
+        instance,
+        nullptr
+    );
+
     if (!handle_) {
         return E_FAIL;
     }
 
-    // ウインドウの表示  
+    // ウインドウの表示
     ShowWindow(handle_, SW_SHOW);
-
-    // ウィンドウを更新  
     UpdateWindow(handle_);
 
-    // ウィンドウのサイズを保存  
+    // ウィンドウのサイズを保存
     witdh_ = width;
     height_ = height;
 
-    // 成功を返す  
     return S_OK;
 }
 
@@ -74,6 +90,13 @@ namespace {
         // メッセージ処理
         TranslateMessage(&msg);
         DispatchMessage(&msg);
+
+        // キー情報の取得
+        static byte keyState[256]{};
+        if (GetKeyboardState(keyState)) {
+            // キー情報取得に成功したら、Input クラスに情報を渡す
+            Input::instance().updateKeyState(keyState);
+        }
     }
 
     return true;

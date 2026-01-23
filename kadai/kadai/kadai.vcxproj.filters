@@ -28,6 +28,9 @@
     <Filter Include="ソース ファイル\asset">
       <UniqueIdentifier>{fcb2e2ff-8419-41e3-8e07-2a727b8b4a31}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\object">
+      <UniqueIdentifier>{308819f5-9f21-43b5-b9ae-d4a22ad75720}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXGI.cpp">
@@ -84,6 +87,18 @@
     <ClCompile Include="square_polygon.cpp">
       <Filter>ソース ファイル\draw_resource</Filter>
     </ClCompile>
+    <ClCompile Include="constant_buffer.cpp">
+      <Filter>ソース ファイル\directX</Filter>
+    </ClCompile>
+    <ClCompile Include="camera.cpp">
+      <Filter>ソース ファイル\object</Filter>
+    </ClCompile>
+    <ClCompile Include="object.cpp">
+      <Filter>ソース ファイル\object</Filter>
+    </ClCompile>
+    <ClCompile Include="input.cpp">
+      <Filter>ソース ファイル\Windoow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DXGI.h">
@@ -119,11 +134,23 @@
     <ClInclude Include="pipline_state_object.h">
       <Filter>ソース ファイル\directX</Filter>
     </ClInclude>
-    <ClInclude Include="triangle_polygon.h">
-      <Filter>ソース ファイル\entry</Filter>
+    <ClInclude Include="constant_buffer.h">
+      <Filter>ソース ファイル\directX</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>ソース ファイル\object</Filter>
+    </ClInclude>
+    <ClInclude Include="object.h">
+      <Filter>ソース ファイル\object</Filter>
     </ClInclude>
     <ClInclude Include="square_polygon.h">
-      <Filter>ソース ファイル\entry</Filter>
+      <Filter>ソース ファイル\draw_resource</Filter>
+    </ClInclude>
+    <ClInclude Include="triangle_polygon.h">
+      <Filter>ソース ファイル\draw_resource</Filter>
+    </ClInclude>
+    <ClInclude Include="input.h">
+      <Filter>ソース ファイル\Windoow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

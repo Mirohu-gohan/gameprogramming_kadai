@@ -1,4 +1,4 @@
-// レンダーターゲット制御クラス
+/// レンダーターゲット制御クラス
 
 #pragma once
 
@@ -44,14 +44,14 @@ public:
      * @param	index	インデックス
      * @return	ディスクリプタハンドル
      */
-    [[nodiscard]] D3D12_CPU_DESCRIPTOR_HANDLE getDescriptorHandle(const Device& device, const DescriptorHeap& heap, UINT index) const noexcept;
+    [[nodiscard]] D3D12_CPU_DESCRIPTOR_HANDLE getCpuDescriptorHandle(const Device& device, const DescriptorHeap& heap, UINT index) const noexcept;
 
     //---------------------------------------------------------------------------------
     /**
      * @brief	レンダーターゲットを取得する
      * @param	index	インデックス
      */
-    [[nodiscard]] ID3D12Resource* get(uint32_t index) const noexcept;
+    [[nodiscard]] ID3D12Resource* get(UINT index) const noexcept;
 
 
 private:

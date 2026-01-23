@@ -4,12 +4,23 @@
 
 #include "device.h"
 #include "command_list.h"
+#include <DirectXMath.h>
 
 //---------------------------------------------------------------------------------
 /**
  * @brief	ポリゴンクラス
  */
 class TrianglePolygon final {
+public:
+    //---------------------------------------------------------------------------------
+    /**
+     * @brief	コンスタントバッファ用データ構造体
+     */
+    struct ConstBufferData {
+        DirectX::XMMATRIX world_{};  /// ワールド行列
+        DirectX::XMFLOAT4 color_{};  /// カラー(RGBA)
+    };
+
 public:
     //---------------------------------------------------------------------------------
     /**
@@ -36,8 +47,7 @@ public:
      * @brief	ポリゴンの描画
      * @param	commandList	コマンドリスト
      */
-    [[nodiscard]] void draw(const CommandList& commandList) noexcept;
-
+    void draw(const CommandList& commandList) noexcept;
 
 private:
     //---------------------------------------------------------------------------------
