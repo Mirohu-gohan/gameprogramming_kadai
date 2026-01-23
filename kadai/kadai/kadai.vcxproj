@@ -36,7 +36,7 @@
     <ClCompile Include="triangle_polygon.cpp" />
     <ClCompile Include="Window.h" />
     <ClCompile Include="Window.cpp" />
-    <ClCompile Include="square_po%3bygon.cpp" />
+    <ClCompile Include="square_polygon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="command_allocator.h" />

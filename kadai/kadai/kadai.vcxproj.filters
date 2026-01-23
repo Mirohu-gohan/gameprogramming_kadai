@@ -81,7 +81,7 @@
     <ClCompile Include="Window.h">
       <Filter>ソース ファイル\Windoow</Filter>
     </ClCompile>
-    <ClCompile Include="square_po%3bygon.cpp">
+    <ClCompile Include="square_polygon.cpp">
       <Filter>ソース ファイル\draw_resource</Filter>
     </ClCompile>
   </ItemGroup>
