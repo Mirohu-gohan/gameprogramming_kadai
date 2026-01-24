@@ -1,4 +1,3 @@
-コンスタントバッファクラス
 
 #include "constant_buffer.h"
 #include <cassert>

@@ -153,9 +153,4 @@
       <Filter>ソース ファイル\Windoow</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="shader.hlsl">
-      <Filter>ソース ファイル\asset</Filter>
-    </FxCompile>
-  </ItemGroup>
 </Project>
