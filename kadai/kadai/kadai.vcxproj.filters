@@ -99,6 +99,12 @@
     <ClCompile Include="input.cpp">
       <Filter>ソース ファイル\Windoow</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>ソース ファイル\Windoow</Filter>
+    </ClCompile>
+    <ClCompile Include="game_object.cpp">
+      <Filter>ソース ファイル\object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DXGI.h">
@@ -151,6 +157,12 @@
     </ClInclude>
     <ClInclude Include="input.h">
       <Filter>ソース ファイル\Windoow</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>ソース ファイル\Windoow</Filter>
+    </ClInclude>
+    <ClInclude Include="game_object.h">
+      <Filter>ソース ファイル\object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

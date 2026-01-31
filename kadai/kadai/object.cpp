@@ -1,11 +1,11 @@
-// ƒIƒuƒWƒFƒNƒgƒNƒ‰ƒX
+ï»¿// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚¯ãƒ©ã‚¹
 
 #include "object.h"
 #include <cmath>
 
 //---------------------------------------------------------------------------------
 /**
- * @brief	ƒ|ƒŠƒSƒ“‚ÌXV
+ * @brief	ãƒãƒªã‚´ãƒ³ã®æ›´æ–°
  */
 void Object::update() noexcept {
 
@@ -17,8 +17,8 @@ void Object::update() noexcept {
 
 //---------------------------------------------------------------------------------
 /**
- * @brief	ƒ[ƒ‹ƒhs—ñ‚Ìæ“¾
- * @return  ƒ[ƒ‹ƒhs—ñ
+ * @brief	ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®å–å¾—
+ * @return  ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—
  */
 [[nodiscard]] DirectX::XMMATRIX Object::world() const noexcept {
     return world_;
@@ -26,8 +26,8 @@ void Object::update() noexcept {
 
 //---------------------------------------------------------------------------------
 /**
- * @brief	ƒJƒ‰[‚Ìæ“¾
- * @return  ƒJƒ‰[
+ * @brief	ã‚«ãƒ©ãƒ¼ã®å–å¾—
+ * @return  ã‚«ãƒ©ãƒ¼
  */
 [[nodiscard]] DirectX::XMFLOAT4 Object::color() const noexcept {
     return color_;

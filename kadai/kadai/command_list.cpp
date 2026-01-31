@@ -1,14 +1,14 @@
-// ƒRƒ}ƒ“ƒhƒŠƒXƒg§ŒäƒNƒ‰ƒX
+ï»¿// ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆåˆ¶å¾¡ã‚¯ãƒ©ã‚¹
 
 #include "command_list.h"
 #include <cassert>
 
 //---------------------------------------------------------------------------------
 /**
- * @brief    ƒfƒXƒgƒ‰ƒNƒ^
+ * @brief    ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
  */
 CommandList::~CommandList() {
-    // ƒRƒ}ƒ“ƒhƒŠƒXƒg‚Ì‰ğ•ú
+    // ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆã®è§£æ”¾
     if (commandList_) {
         commandList_->Release();
         commandList_ = nullptr;
@@ -17,46 +17,46 @@ CommandList::~CommandList() {
 
 //---------------------------------------------------------------------------------
 /**
- * @brief	ƒRƒ}ƒ“ƒhƒŠƒXƒgì¬
- * @param	device	ƒfƒoƒCƒXƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
- * @param	command	ƒRƒ}ƒ“ƒhƒAƒƒP[ƒ^ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
- * @return	¶¬‚Ì¬”Û
+ * @brief	ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆä½œæˆ
+ * @param	device	ãƒ‡ãƒã‚¤ã‚¹ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+ * @param	command	ã‚³ãƒãƒ³ãƒ‰ã‚¢ãƒ­ã‚±ãƒ¼ã‚¿ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+ * @return	ç”Ÿæˆã®æˆå¦
  */
 [[nodiscard]] bool CommandList::create(const Device& device, const CommandAllocator& commandAllocator) noexcept {
-    // ƒRƒ}ƒ“ƒhƒŠƒXƒg‚Ìì¬
+    // ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆã®ä½œæˆ
     const auto hr = device.get()->CreateCommandList(0, commandAllocator.getType(), commandAllocator.get(), nullptr, IID_PPV_ARGS(&commandList_));
     if (FAILED(hr)) {
-        assert(false && "ƒRƒ}ƒ“ƒhƒŠƒXƒg‚Ìì¬‚É¸”s‚µ‚Ü‚µ‚½");
+        assert(false && "ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆã®ä½œæˆã«å¤±æ•—ã—ã¾ã—ãŸ");
         return false;
     }
 
-    // ƒRƒ}ƒ“ƒhƒŠƒXƒg‚ğ‰Šú‰»ó‘Ô‚Éİ’è
+    // ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆã‚’åˆæœŸåŒ–çŠ¶æ…‹ã«è¨­å®š
     commandList_->Close();
     return true;
 }
 
 //---------------------------------------------------------------------------------
 /**
- * @brief	ƒRƒ}ƒ“ƒhƒŠƒXƒg‚ÌƒŠƒZƒbƒg
- * @param	commandAllocator	ƒRƒ}ƒ“ƒhƒAƒƒP[ƒ^ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
+ * @brief	ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆã®ãƒªã‚»ãƒƒãƒˆ
+ * @param	commandAllocator	ã‚³ãƒãƒ³ãƒ‰ã‚¢ãƒ­ã‚±ãƒ¼ã‚¿ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
  */
 void CommandList::reset(const CommandAllocator& commandAllocator) noexcept {
     if (!commandList_) {
-        assert(false && "ƒRƒ}ƒ“ƒhƒŠƒXƒg‚ª–¢ì¬‚Å‚·");
+        assert(false && "ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆãŒæœªä½œæˆã§ã™");
     }
 
-    // ƒRƒ}ƒ“ƒhƒŠƒXƒg‚ğƒŠƒZƒbƒg
+    // ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆã‚’ãƒªã‚»ãƒƒãƒˆ
     commandList_->Reset(commandAllocator.get(), nullptr);
 }
 
 //---------------------------------------------------------------------------------
 /**
- * @brief	ƒRƒ}ƒ“ƒhƒŠƒXƒg‚ğæ“¾‚·‚é
- * @return	ƒRƒ}ƒ“ƒhƒŠƒXƒg‚Ìƒ|ƒCƒ“ƒ^
+ * @brief	ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹
+ * @return	ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆã®ãƒã‚¤ãƒ³ã‚¿
  */
 [[nodiscard]] ID3D12GraphicsCommandList* CommandList::get() const noexcept {
     if (!commandList_) {
-        assert(false && "ƒRƒ}ƒ“ƒhƒŠƒXƒg‚ª–¢ì¬‚Å‚·");
+        assert(false && "ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆãŒæœªä½œæˆã§ã™");
         return nullptr;
     }
     return commandList_;

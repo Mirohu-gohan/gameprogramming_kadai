@@ -1,20 +1,13 @@
-// ƒEƒBƒ“ƒhƒE§ŒäƒNƒ‰ƒX‚ÌÀ‘•
-#include "window.h"
+ï»¿#include "window.h"
 #include "input.h"
 
 namespace {
-    //---------------------------------------------------------------------------------
     /**
-     * @brief	ƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ
-     * @param	handle		ƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹
-     * @param	msg			ƒƒbƒZ[ƒW
-     * @param	wParam		ƒƒbƒZ[ƒWƒpƒ‰ƒ[ƒ^
-     * @param	lParam		ƒƒbƒZ[ƒWƒpƒ‰ƒ[ƒ^
-     * @return	ˆ—Œ‹‰Ê
+     * @brief   ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ—ãƒ­ã‚·ãƒ¼ã‚¸ãƒ£
      */
     LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
         switch (msg) {
-        case WM_DESTROY:  // ƒEƒBƒ“ƒhƒE‚ª•Â‚¶‚ç‚ê‚½‚Æ‚«
+        case WM_DESTROY:  // ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãŒé–‰ã˜ã‚‰ã‚ŒãŸã¨ã
             PostQuitMessage(0);
             return 0;
         }
@@ -22,30 +15,21 @@ namespace {
     }
 }  // namespace
 
-//---------------------------------------------------------------------------------
 /**
- * @brief	ƒEƒBƒ“ƒhƒE‚Ì¶¬
- * @param	instance	ƒCƒ“ƒXƒ^ƒ“ƒXƒnƒ“ƒhƒ‹
- * @param	width		‰¡•
- * @param	height		c•
- * @param	name		ƒEƒBƒ“ƒhƒE–¼
- * @return	¶¬‚Ì¬”Û
+ * @brief   ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ç”Ÿæˆ
  */
 [[nodiscard]] HRESULT Window::create(HINSTANCE instance, int width, int height, std::string_view name) noexcept {
-   
-    WNDCLASSA wc{};
 
+    WNDCLASSA wc{};
     wc.lpfnWndProc = WindowProc;
     wc.hInstance = instance;
-
-    // ‚±‚ê‚Å char* Œ^‚Ì name.data() ‚ğ‘ã“ü‚Å‚«‚Ü‚·
     wc.lpszClassName = name.data();
-
     wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
     wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
 
-    
-    RegisterClassA(&wc);
+    if (!RegisterClassA(&wc)) {
+        return E_FAIL;
+    }
 
     handle_ = CreateWindowA(
         wc.lpszClassName,
@@ -65,36 +49,32 @@ namespace {
         return E_FAIL;
     }
 
-    // ƒEƒCƒ“ƒhƒE‚Ì•\¦
     ShowWindow(handle_, SW_SHOW);
     UpdateWindow(handle_);
 
-    // ƒEƒBƒ“ƒhƒE‚ÌƒTƒCƒY‚ğ•Û‘¶
-    witdh_ = width;
+    // ãƒ¡ãƒ³ãƒå¤‰æ•°ã¸ã®ä¿å­˜
+    width_ = width;
     height_ = height;
 
     return S_OK;
 }
 
-//---------------------------------------------------------------------------------
 /**
- * @brief	ƒƒbƒZ[ƒWƒ‹[ƒv
+ * @brief   ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ«ãƒ¼ãƒ—
  */
 [[nodiscard]] bool Window::messageLoop() const noexcept {
     MSG msg{};
     while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
         if (msg.message == WM_QUIT) {
-            return false;  // WM_QUITƒƒbƒZ[ƒW‚ª—ˆ‚½‚çƒ‹[ƒv‚ğ”²‚¯‚é
+            return false;
         }
 
-        // ƒƒbƒZ[ƒWˆ—
         TranslateMessage(&msg);
         DispatchMessage(&msg);
 
-        // ƒL[î•ñ‚Ìæ“¾
+        // ã‚­ãƒ¼æƒ…å ±ã®å–å¾—
         static byte keyState[256]{};
         if (GetKeyboardState(keyState)) {
-            // ƒL[î•ñæ“¾‚É¬Œ÷‚µ‚½‚çAInput ƒNƒ‰ƒX‚Éî•ñ‚ğ“n‚·
             Input::instance().updateKeyState(keyState);
         }
     }
@@ -102,20 +82,16 @@ namespace {
     return true;
 }
 
-//---------------------------------------------------------------------------------
 /**
- * @brief	ƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚é
- * @return	ƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹
+ * @brief   ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«ã‚’å–å¾—ã™ã‚‹
  */
 [[nodiscard]] HWND Window::handle() const noexcept {
     return handle_;
 }
 
-//---------------------------------------------------------------------------------
 /**
- * @brief	ƒEƒBƒ“ƒhƒE‚ÌƒTƒCƒY‚ğæ“¾‚·‚é
- * @return@ƒEƒBƒ“ƒhƒE‚ÌƒTƒCƒY (‰¡•, c•)
+ * @brief   ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ã‚µã‚¤ã‚ºã‚’å–å¾—ã™ã‚‹
  */
 [[nodiscard]] std::pair<int, int> Window::size() const noexcept {
-    return { witdh_, height_ };
+    return { width_, height_ };
 }

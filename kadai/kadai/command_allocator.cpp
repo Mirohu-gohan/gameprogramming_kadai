@@ -1,75 +1,58 @@
-// ƒRƒ}ƒ“ƒhƒAƒƒP[ƒ^§ŒäƒNƒ‰ƒX
-
-#include "command_allocator.h"
+ï»¿#include "command_allocator.h"
 #include <cassert>
 
-//---------------------------------------------------------------------------------
 /**
- * @brief    ƒfƒXƒgƒ‰ƒNƒ^
+ * @brief ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
  */
 CommandAllocator::~CommandAllocator() {
-    // ƒRƒ}ƒ“ƒhƒAƒƒP[ƒ^‚Ì‰ğ•ú
     if (commandAllocator_) {
         commandAllocator_->Release();
         commandAllocator_ = nullptr;
     }
 }
 
-//---------------------------------------------------------------------------------
 /**
- * @brief	ƒRƒ}ƒ“ƒhƒLƒ…[‚Ì¶¬
- * @param	device	ƒfƒoƒCƒXƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
- * @return	¬Œ÷‚·‚ê‚Î true
+ * @brief ã‚³ãƒãƒ³ãƒ‰ã‚¢ãƒ­ã‚±ãƒ¼ã‚¿ã®ä½œæˆ
+ * @param device ãƒ‡ãƒã‚¤ã‚¹ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+ * @param type ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆã®ã‚¿ã‚¤ãƒ—
+ * @return æˆåŠŸã™ã‚Œã° true
  */
-[[nodiscard]] bool CommandAllocator::create(const Device& device, const D3D12_COMMAND_LIST_TYPE type) noexcept {
-
-    // ƒRƒ}ƒ“ƒhƒŠƒXƒg‚Ìƒ^ƒCƒv‚ğİ’è
+bool CommandAllocator::create(const Device& device, const D3D12_COMMAND_LIST_TYPE type) noexcept {
     type_ = type;
 
-    // ƒRƒ}ƒ“ƒhƒAƒƒP[ƒ^‚Ì¶¬
     const auto hr = device.get()->CreateCommandAllocator(type_, IID_PPV_ARGS(&commandAllocator_));
     if (FAILED(hr)) {
-        assert(false && "ƒRƒ}ƒ“ƒhƒAƒƒP[ƒ^‚Ìì¬‚É¸”s‚µ‚Ü‚µ‚½");
+        assert(false && "Failed to create Command Allocator");
         return false;
     }
 
     return true;
 }
 
-//---------------------------------------------------------------------------------
 /**
- * @brief	ƒRƒ}ƒ“ƒhƒAƒƒP[ƒ^‚ğƒŠƒZƒbƒg‚·‚é
+ * @brief ã‚³ãƒãƒ³ãƒ‰ã‚¢ãƒ­ã‚±ãƒ¼ã‚¿ã‚’ãƒªã‚»ãƒƒãƒˆã™ã‚‹
  */
 void CommandAllocator::reset() noexcept {
-
     if (!commandAllocator_) {
-        assert(false && "ƒRƒ}ƒ“ƒhƒAƒƒP[ƒ^‚ª–¢ì¬‚Å‚·");
+        assert(false && "Command Allocator is null");
     }
-
     commandAllocator_->Reset();
 }
 
-
-//---------------------------------------------------------------------------------
 /**
- * @brief	ƒRƒ}ƒ“ƒhƒAƒƒP[ƒ^‚ğæ“¾‚·‚é
- * @return	ƒRƒ}ƒ“ƒhƒAƒƒP[ƒ^‚Ìƒ|ƒCƒ“ƒ^
+ * @brief ã‚³ãƒãƒ³ãƒ‰ã‚¢ãƒ­ã‚±ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹
  */
-[[nodiscard]] ID3D12CommandAllocator* CommandAllocator::get() const noexcept {
+ID3D12CommandAllocator* CommandAllocator::get() const noexcept {
     if (!commandAllocator_) {
-        assert(false && "ƒRƒ}ƒ“ƒhƒAƒƒP[ƒ^‚ª–¢ì¬‚Å‚·");
+        assert(false && "Command Allocator is null");
         return nullptr;
     }
     return commandAllocator_;
 }
-//---------------------------------------------------------------------------------
+
 /**
- * @brief	ƒRƒ}ƒ“ƒhƒŠƒXƒg‚Ìƒ^ƒCƒv‚ğæ“¾‚·‚é
- * @return	ƒRƒ}ƒ“ƒhƒŠƒXƒg‚Ìƒ^ƒCƒv
+ * @brief ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆã®ã‚¿ã‚¤ãƒ—ã‚’å–å¾—ã™ã‚‹
  */
-[[nodiscard]] D3D12_COMMAND_LIST_TYPE CommandAllocator::getType() const noexcept {
-    if (!commandAllocator_) {
-        assert(false && "ƒRƒ}ƒ“ƒhƒŠƒXƒg‚Ìƒ^ƒCƒv‚ª–¢İ’è‚Å‚·");
-    }
+D3D12_COMMAND_LIST_TYPE CommandAllocator::getType() const noexcept {
     return type_;
 }

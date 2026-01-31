@@ -1,22 +1,23 @@
-// “ü—Íˆ—‚ğ’S“–‚·‚éƒNƒ‰ƒX
+ï»¿// å…¥åŠ›å‡¦ç†ã‚’æ‹…å½“ã™ã‚‹ã‚¯ãƒ©ã‚¹
 
 #include "input.h"
 
 //---------------------------------------------------------------------------------
 /**
- * @brief	ƒL[î•ñ‚Ìæ“¾
- * @param	key		ƒL[‚Ì¯•Êq
- * @return	“ü—Í‚³‚ê‚Ä‚¢‚ê‚Îtrue
+ * @brief	ã‚­ãƒ¼æƒ…å ±ã®å–å¾—
+ * @param	key		ã‚­ãƒ¼ã®è­˜åˆ¥å­
+ * @return	å…¥åŠ›ã•ã‚Œã¦ã„ã‚Œã°true
  */
+
 [[nodiscard]] bool Input::getKey(uint16_t sKey) const noexcept {
     return (keyState_[sKey] & 0x80) != 0;
 }
 //---------------------------------------------------------------------------------
 /**
- * @brief	ƒL[î•ñ‚ÌXV
- * @param	pState	ƒn[ƒh‚©‚çİ’è‚³‚ê‚½ƒL[î•ñ”z—ñ‚Ìƒ|ƒCƒ“ƒ^
+ * @brief	ã‚­ãƒ¼æƒ…å ±ã®æ›´æ–°
+ * @param	pState	ãƒãƒ¼ãƒ‰ã‹ã‚‰è¨­å®šã•ã‚ŒãŸã‚­ãƒ¼æƒ…å ±é…åˆ—ã®ãƒã‚¤ãƒ³ã‚¿
  * @return
  */
-void Input::updateKeyState(void* pState) noexcept {
+void Input::updateKeyState(const void* pState) noexcept {
     memcpy_s(keyState_, sizeof(keyState_), pState, sizeof(keyState_));
 }

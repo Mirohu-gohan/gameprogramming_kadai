@@ -30,9 +30,11 @@
     <ClCompile Include="entry.cpp" />
     <ClCompile Include="fence.cpp" />
     <ClCompile Include="fence.h" />
+    <ClCompile Include="game_object.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="pipline_state_object.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="render_target.cpp" />
     <ClCompile Include="root_signature.cpp" />
     <ClCompile Include="shader.cpp" />
@@ -51,9 +53,11 @@
     <ClInclude Include="descriptor_heap.h" />
     <ClInclude Include="device.h" />
     <ClInclude Include="DXGI.h" />
+    <ClInclude Include="game_object.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="pipline_state_object.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="render_target.h" />
     <ClInclude Include="root_signature.h" />
     <ClInclude Include="shader.h" />
@@ -124,7 +128,10 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EntryPointSymbol>WinMainCRTSarup</EntryPointSymbol>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <AdditionalDependencies>d3d12.lib;dxgi.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -142,7 +149,10 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EntryPointSymbol>WinMainCRTSarup</EntryPointSymbol>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <AdditionalDependencies>d3d12.lib;dxgi.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -157,7 +167,10 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EntryPointSymbol>WinMainCRTSarup</EntryPointSymbol>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <AdditionalDependencies>d3d12.lib;dxgi.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -176,7 +189,10 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EntryPointSymbol>WinMainCRTSarup</EntryPointSymbol>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <AdditionalDependencies>d3d12.lib;dxgi.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

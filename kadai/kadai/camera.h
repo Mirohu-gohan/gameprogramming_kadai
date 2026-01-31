@@ -1,70 +1,68 @@
-#pragma once// ƒJƒƒ‰§ŒäƒNƒ‰ƒX
-
-#pragma once
+ï»¿#pragma once
 
 #include <DirectXMath.h>
 
 //---------------------------------------------------------------------------------
 /**
- * @brief	ƒJƒƒ‰§ŒäƒNƒ‰ƒX
+ * @brief	ã‚«ãƒ¡ãƒ©åˆ¶å¾¡ã‚¯ãƒ©ã‚¹
  */
 class Camera final {
 public:
     //---------------------------------------------------------------------------------
     /**
-     * @brief	ƒRƒ“ƒXƒ^ƒ“ƒgƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘Ì
+     * @brief	ã‚³ãƒ³ã‚¹ã‚¿ãƒ³ãƒˆãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
      */
     struct ConstBufferData {
-        DirectX::XMMATRIX view_{};        /// ƒrƒ…[s—ñ
-        DirectX::XMMATRIX projection_{};  /// Ë‰es—ñ
+        DirectX::XMMATRIX view_{};        /// ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—
+        DirectX::XMMATRIX projection_{};  /// å°„å½±è¡Œåˆ—
     };
 
 public:
     //---------------------------------------------------------------------------------
     /**
-     * @brief    ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * @brief    ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     Camera() = default;
 
     //---------------------------------------------------------------------------------
     /**
-     * @brief    ƒfƒXƒgƒ‰ƒNƒ^
+     * @brief    ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     ~Camera() = default;
 
 public:
     //---------------------------------------------------------------------------------
     /**
-     * @brief    ƒJƒƒ‰‚ğ‰Šú‰»‚·‚é
+     * @brief    ã‚«ãƒ¡ãƒ©ã‚’åˆæœŸåŒ–ã™ã‚‹
      */
     void initialize() noexcept;
 
     //---------------------------------------------------------------------------------
     /**
-     * @brief    ƒJƒƒ‰‚ğXV‚·‚é
+     * @brief    ã‚«ãƒ¡ãƒ©ã‚’æ›´æ–°ã™ã‚‹
      */
     void update() noexcept;
 
     //---------------------------------------------------------------------------------
     /**
-     * @brief   ƒJƒƒ‰‚Ìƒrƒ…[s—ñ‚ğæ“¾‚·‚é
-     * @return	ƒrƒ…[s—ñ
+     * @brief   ã‚«ãƒ¡ãƒ©ã®ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—ã‚’å–å¾—ã™ã‚‹
+     * @return	ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—
      */
     [[nodiscard]] DirectX::XMMATRIX XM_CALLCONV viewMatrix() const noexcept;
 
     //---------------------------------------------------------------------------------
     /**
-     * @brief   ƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñ‚ğæ“¾‚·‚é
-     * @return	ƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñ
+     * @brief   ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³è¡Œåˆ—ã‚’å–å¾—ã™ã‚‹
+     * @return	ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³è¡Œåˆ—
      */
     [[nodiscard]] DirectX::XMMATRIX XM_CALLCONV projection() const noexcept;
 
 private:
-    DirectX::XMMATRIX view_{};        /// ƒrƒ…[s—ñ
-    DirectX::XMMATRIX projection_{};  /// Ë‰es—ñ
+    DirectX::XMMATRIX view_{};        /// ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—
+    DirectX::XMMATRIX projection_{};  /// å°„å½±è¡Œåˆ—
 
-    // ƒJƒƒ‰‚Ìƒpƒ‰ƒ[ƒ^
-    DirectX::XMFLOAT3 position_{};  /// ƒJƒƒ‰‚ÌˆÊ’u
-    DirectX::XMFLOAT3 target_{};    /// ƒJƒƒ‰‚Ì’‹“_
-    DirectX::XMFLOAT3 up_{};        /// ƒJƒƒ‰‚Ìã•ûŒü
+    // ã‚«ãƒ¡ãƒ©ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+    DirectX::XMFLOAT3 position_{};  /// ã‚«ãƒ¡ãƒ©ã®ä½ç½®
+    DirectX::XMFLOAT3 target_{};    /// ã‚«ãƒ¡ãƒ©ã®æ³¨è¦–ç‚¹
+    DirectX::XMFLOAT3 up_{};        /// ã‚«ãƒ¡ãƒ©ã®ä¸Šæ–¹å‘
 };

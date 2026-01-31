@@ -1,62 +1,45 @@
-// ƒEƒBƒ“ƒhƒE§ŒäƒNƒ‰ƒX
-
-#pragma once
+ï»¿#pragma once
 
 #include <Windows.h>
 #include <string>
+#include <string_view>
+#include <utility>
 
-//---------------------------------------------------------------------------------
 /**
- * @brief	ƒEƒBƒ“ƒhƒE§ŒäƒNƒ‰ƒX
+ * @brief   ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦åˆ¶å¾¡ã‚¯ãƒ©ã‚¹
  */
 class Window final {
 public:
-    //---------------------------------------------------------------------------------
-    /**
-     * @brief    ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-     */
     Window() = default;
-
-    //---------------------------------------------------------------------------------
-    /**
-     * @brief    ƒfƒXƒgƒ‰ƒNƒ^
-     */
     ~Window() = default;
 
-    //---------------------------------------------------------------------------------
     /**
-     * @brief	ƒEƒBƒ“ƒhƒE‚Ì¶¬
-     * @param	instance	ƒCƒ“ƒXƒ^ƒ“ƒXƒnƒ“ƒhƒ‹
-     * @param	width		‰¡•
-     * @param	height		c•
-     * @param	name		ƒEƒBƒ“ƒhƒE–¼
-     * @return	¶¬‚Ì¬”Û
+     * @brief   ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ç”Ÿæˆ
+     * @param   instance    ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãƒãƒ³ãƒ‰ãƒ«
+     * @param   width       æ¨ªå¹…
+     * @param   height      ç¸¦å¹…
+     * @param   name        ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å
+     * @return  ç”Ÿæˆã®æˆå¦
      */
     [[nodiscard]] HRESULT create(HINSTANCE instance, int width, int height, std::string_view name) noexcept;
 
-    //---------------------------------------------------------------------------------
     /**
-     * @brief	ƒƒbƒZ[ƒWƒ‹[ƒv
+     * @brief   ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ«ãƒ¼ãƒ—
      */
     [[nodiscard]] bool messageLoop() const noexcept;
 
-    //---------------------------------------------------------------------------------
     /**
-     * @brief	ƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚é
-     * @return	ƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹
+     * @brief   ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«ã‚’å–å¾—ã™ã‚‹
      */
     [[nodiscard]] HWND handle() const noexcept;
 
-    //---------------------------------------------------------------------------------
     /**
-     * @brief	ƒEƒBƒ“ƒhƒE‚ÌƒTƒCƒY‚ğæ“¾‚·‚é
-     * @return@ƒEƒBƒ“ƒhƒE‚ÌƒTƒCƒY (‰¡•, c•)
+     * @brief   ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ã‚µã‚¤ã‚ºã‚’å–å¾—ã™ã‚‹
      */
     [[nodiscard]] std::pair<int, int> size() const noexcept;
 
-
 private:
-    HWND handle_{};  /// ƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹
-    int  witdh_{};   /// ƒEƒBƒ“ƒhƒE‚Ì‰¡•
-    int  height_{};  /// ƒEƒBƒ“ƒhƒE‚Ìc•
+    HWND handle_{};   /// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+    int  width_{};    /// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®æ¨ªå¹…
+    int  height_{};   /// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ç¸¦å¹…
 };

@@ -1,4 +1,4 @@
-// ƒIƒuƒWƒFƒNƒgƒNƒ‰ƒX
+ï»¿// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚¯ãƒ©ã‚¹
 
 #pragma once
 
@@ -6,55 +6,55 @@
 
 //---------------------------------------------------------------------------------
 /**
- * @brief	ƒIƒuƒWƒFƒNƒgƒNƒ‰ƒX
+ * @brief	ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚¯ãƒ©ã‚¹
  */
-class Object final {
+class Object  {
 public:
     //---------------------------------------------------------------------------------
     /**
-     * @brief	ƒRƒ“ƒXƒ^ƒ“ƒgƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘Ì
+     * @brief	ã‚³ãƒ³ã‚¹ã‚¿ãƒ³ãƒˆãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
      */
     struct ConstBufferData {
-        DirectX::XMMATRIX world_{};  /// ƒ[ƒ‹ƒhs—ñ
-        DirectX::XMFLOAT4 color_{};  /// ƒJƒ‰[(RGBA)
+        DirectX::XMMATRIX world_{};  /// ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—
+        DirectX::XMFLOAT4 color_{};  /// ã‚«ãƒ©ãƒ¼(RGBA)
     };
 
 public:
     //---------------------------------------------------------------------------------
     /**
-     * @brief    ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * @brief    ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     Object() = default;
 
     //---------------------------------------------------------------------------------
     /**
-     * @brief    ƒfƒXƒgƒ‰ƒNƒ^
+     * @brief    ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     ~Object() = default;
 
     //---------------------------------------------------------------------------------
     /**
-     * @brief	ƒIƒuƒWƒFƒNƒg‚ÌXV
+     * @brief	ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ›´æ–°
      */
     void update() noexcept;
 
     //---------------------------------------------------------------------------------
     /**
-     * @brief	ƒ[ƒ‹ƒhs—ñ‚Ìæ“¾
-     * @return  ƒ[ƒ‹ƒhs—ñ
+     * @brief	ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®å–å¾—
+     * @return  ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—
      */
     [[nodiscard]] DirectX::XMMATRIX world() const noexcept;
 
     //---------------------------------------------------------------------------------
     /**
-     * @brief	ƒJƒ‰[‚Ìæ“¾
-     * @return  ƒJƒ‰[
+     * @brief	ã‚«ãƒ©ãƒ¼ã®å–å¾—
+     * @return  ã‚«ãƒ©ãƒ¼
      */
     [[nodiscard]] DirectX::XMFLOAT4 color() const noexcept;
 
 private:
-    DirectX::XMMATRIX world_ = DirectX::XMMatrixIdentity();                /// ƒ[ƒ‹ƒhs—ñ
-    DirectX::XMFLOAT4 color_ = DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);  /// ƒJƒ‰[(RGBA)
+    DirectX::XMMATRIX world_ = DirectX::XMMatrixIdentity();                /// ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—
+    DirectX::XMFLOAT4 color_ = DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);  /// ã‚«ãƒ©ãƒ¼(RGBA)
 
-    float move_{};  /// ˆÚ“®—p•Ï”
+    float move_{};  /// ç§»å‹•ç”¨å¤‰æ•°
 };

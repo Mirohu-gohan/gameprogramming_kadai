@@ -1,9 +1,5 @@
-//#pragma comment(linker, "/SUBSYSTEM:WINDOWS")
-#pragma comment(linker, "/SUBSYSTEM:WINDOWS")
-#pragma comment(linker, "/ENTRY:WinMainCRTStartup")
-
+Ôªø#include <sal.h>
 #include "window.h" 
-
 #include "device.h"
 #include "DXGI.h"
 #include "command_allocator.h"
@@ -16,17 +12,13 @@
 #include "root_signature.h"
 #include "shader.h"
 #include "pipline_state_object.h"
-
-// óºï˚ÇÉCÉìÉNÉãÅ[Éh
 #include "triangle_polygon.h"
 #include "square_polygon.h" 
-
-#include <cassert>
-#include <d3d12.h>
 #include "camera.h"
-#include "square_polygon.h"
 #include "object.h"
 #include "constant_buffer.h"
+#include <cassert>
+#include <d3d12.h>
 
 class Application final {
 public:
@@ -49,9 +41,8 @@ public:
         if (!commandListInstance_.create(deviceInstance_, commandAllocatorInstance_[0])) return false;
         if (!fenceInstance_.create(deviceInstance_)) return false;
 
-        // É|ÉäÉSÉìê∂ê¨
         if (!trianglePolygonInstance_.create(deviceInstance_)) return false;
-        if (!squarePolygonInstance_.create(deviceInstance_)) return false; // Ç±Ç±Ç≈ÉGÉâÅ[Ç™èoÇÈÇ»ÇÁïœêîñºÇämîF
+        if (!squarePolygonInstance_.create(deviceInstance_)) return false;
 
         if (!rootSignatureInstance_.create(deviceInstance_)) return false;
         if (!shaderInstance_.create(deviceInstance_)) return false;
@@ -59,14 +50,10 @@ public:
 
         cameraInstance_.initialize();
 
-        // ÉfÉBÉXÉNÉäÉvÉ^ÉqÅ[Év (CBVóp)
         if (!constantBufferDescriptorHeapInstance_.create(deviceInstance_, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 3, true)) return false;
 
-        // íËêîÉoÉbÉtÉ@çÏê¨
         if (!cameraConstantBufferInstance_.create(deviceInstance_, constantBufferDescriptorHeapInstance_, sizeof(Camera::ConstBufferData), 0)) return false;
         if (!trianglePolygonConstantBufferInstance_.create(deviceInstance_, constantBufferDescriptorHeapInstance_, sizeof(TrianglePolygon::ConstBufferData), 1)) return false;
-
-        // éläpå`óp (Ç±Ç±Ç‡ÉNÉâÉXñºÇ‚ç\ë¢ëÃñºÇämîFÇµÇƒÇ≠ÇæÇ≥Ç¢)
         if (!squarePolygonConstantBufferInstance_.create(deviceInstance_, constantBufferDescriptorHeapInstance_, sizeof(SquarePolygon::ConstBufferData), 2)) return false;
 
         return true;
@@ -100,51 +87,37 @@ public:
             commandListInstance_.get()->SetGraphicsRootSignature(rootSignatureInstance_.get());
 
             const auto [w, h] = windowInstance_.size();
-            D3D12_VIEWPORT viewport{};
-            viewport.TopLeftX = 0.0f; viewport.TopLeftY = 0.0f;
-            viewport.Width = static_cast<float>(w); viewport.Height = static_cast<float>(h);
-            viewport.MinDepth = 0.0f; viewport.MaxDepth = 1.0f;
+            D3D12_VIEWPORT viewport{ 0.0f, 0.0f, static_cast<float>(w), static_cast<float>(h), 0.0f, 1.0f };
             commandListInstance_.get()->RSSetViewports(1, &viewport);
 
-            D3D12_RECT scissorRect{};
-            scissorRect.left = 0; scissorRect.top = 0;
-            scissorRect.right = w; scissorRect.bottom = h;
+            D3D12_RECT scissorRect{ 0, 0, static_cast<LONG>(w), static_cast<LONG>(h) };
             commandListInstance_.get()->RSSetScissorRects(1, &scissorRect);
 
-            ID3D12DescriptorHeap* p[] = { constantBufferDescriptorHeapInstance_.get() };
-            commandListInstance_.get()->SetDescriptorHeaps(1, p);
+            ID3D12DescriptorHeap* heaps[] = { constantBufferDescriptorHeapInstance_.get() };
+            commandListInstance_.get()->SetDescriptorHeaps(1, heaps);
 
-            // ÉJÉÅÉâ
+            // Camera
             Camera::ConstBufferData cameraData{
                 DirectX::XMMatrixTranspose(cameraInstance_.viewMatrix()),
                 DirectX::XMMatrixTranspose(cameraInstance_.projection()),
             };
-            UINT8* pCameraData{};
-            cameraConstantBufferInstance_.constantBuffer()->Map(0, nullptr, reinterpret_cast<void**>(&pCameraData));
-            memcpy_s(pCameraData, sizeof(cameraData), &cameraData, sizeof(cameraData));
-            cameraConstantBufferInstance_.constantBuffer()->Unmap(0, nullptr);
+            updateCB(cameraConstantBufferInstance_, &cameraData, sizeof(cameraData));
             commandListInstance_.get()->SetGraphicsRootDescriptorTable(0, cameraConstantBufferInstance_.getGpuDescriptorHandle());
 
-            // éOäpå`
+            // Triangle
             TrianglePolygon::ConstBufferData triangleData{
                 DirectX::XMMatrixTranspose(triangleObjectInstance_.world()),
                 triangleObjectInstance_.color() };
-            UINT8* pTriangleData{};
-            trianglePolygonConstantBufferInstance_.constantBuffer()->Map(0, nullptr, reinterpret_cast<void**>(&pTriangleData));
-            memcpy_s(pTriangleData, sizeof(triangleData), &triangleData, sizeof(triangleData));
-            trianglePolygonConstantBufferInstance_.constantBuffer()->Unmap(0, nullptr);
+            updateCB(trianglePolygonConstantBufferInstance_, &triangleData, sizeof(triangleData));
             commandListInstance_.get()->SetGraphicsRootDescriptorTable(1, trianglePolygonConstantBufferInstance_.getGpuDescriptorHandle());
             trianglePolygonInstance_.draw(commandListInstance_);
 
-            // éläpå`
+            // Square
             SquarePolygon::ConstBufferData squareData{
                 DirectX::XMMatrixTranspose(squareObjectInstance_.world()),
                 squareObjectInstance_.color()
             };
-            UINT8* pSquareData{};
-            squarePolygonConstantBufferInstance_.constantBuffer()->Map(0, nullptr, reinterpret_cast<void**>(&pSquareData));
-            memcpy_s(pSquareData, sizeof(squareData), &squareData, sizeof(squareData));
-            squarePolygonConstantBufferInstance_.constantBuffer()->Unmap(0, nullptr);
+            updateCB(squarePolygonConstantBufferInstance_, &squareData, sizeof(squareData));
             commandListInstance_.get()->SetGraphicsRootDescriptorTable(1, squarePolygonConstantBufferInstance_.getGpuDescriptorHandle());
             squarePolygonInstance_.draw(commandListInstance_.get());
 
@@ -154,7 +127,7 @@ public:
             commandListInstance_.get()->Close();
 
             ID3D12CommandList* ppCommandLists[] = { commandListInstance_.get() };
-            commandQueueInstance_.get()->ExecuteCommandLists(_countof(ppCommandLists), ppCommandLists);
+            commandQueueInstance_.get()->ExecuteCommandLists(1, ppCommandLists);
 
             swapChainInstance_.get()->Present(1, 0);
 
@@ -164,10 +137,17 @@ public:
         }
     }
 
+private:
+    void updateCB(ConstantBuffer& cb, const void* data, size_t size) {
+        void* p{};
+        cb.constantBuffer()->Map(0, nullptr, &p);
+        memcpy(p, data, size);
+        cb.constantBuffer()->Unmap(0, nullptr);
+    }
+
     D3D12_RESOURCE_BARRIER resourceBarrier(ID3D12Resource* resource, D3D12_RESOURCE_STATES from, D3D12_RESOURCE_STATES to) noexcept {
         D3D12_RESOURCE_BARRIER barrier{};
         barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
-        barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
         barrier.Transition.pResource = resource;
         barrier.Transition.StateBefore = from;
         barrier.Transition.StateAfter = to;
@@ -175,7 +155,6 @@ public:
         return barrier;
     }
 
-private:
     Window             windowInstance_{};
     DXGI               dxgiInstance_{};
     Device             deviceInstance_{};
@@ -198,8 +177,6 @@ private:
     Object             triangleObjectInstance_{};
     ConstantBuffer     trianglePolygonConstantBufferInstance_{};
 
-    // ÉNÉâÉXñºÇ™ QuadPolygon Ç»ÇÃÇ© SquarePolygon Ç»ÇÃÇ©íçà”ÇµÇƒÇ≠ÇæÇ≥Ç¢
-    // Ç±Ç±Ç≈ÇÕÇ†Ç»ÇΩÇÃç≈å„ÇÃÉRÅ[ÉhÇ…çáÇÌÇπÇƒ SquarePolygon Ç…ÇµÇƒÇ¢Ç‹Ç∑
     SquarePolygon      squarePolygonInstance_{};
     Object             squareObjectInstance_{};
     ConstantBuffer     squarePolygonConstantBufferInstance_{};
@@ -208,16 +185,23 @@ private:
     ConstantBuffer     cameraConstantBufferInstance_{};
 };
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
+
+
+int WINAPI WinMain(
+    _In_ HINSTANCE hInstance,
+    _In_opt_ HINSTANCE hPrevInstance,
+    _In_ LPSTR lpCmdLine,
+    _In_ int nCmdShow)
+{
     Application app;
     if (!app.initialize(hInstance)) return -1;
     app.loop();
     return 0;
 }
 
-#if defined(_DEBUG) || defined(DEBUG)
+#ifdef _DEBUG
 int main() {
-    // ÉRÉìÉ\Å[Éã(main)Ç©ÇÁÅAÉEÉBÉìÉhÉE(WinMain)Çñ≥óùÇ‚ÇËåƒÇ—èoÇ∑
-    return WinMain(GetModuleHandle(nullptr), nullptr, nullptr, SW_SHOW);
+    // Á¨¨3ÂºïÊï∞„ÅØ nullptr „Åß„ÅØ„Å™„Åè„ÄÅÁ©∫„ÅÆÊñáÂ≠óÂàó "" „ÇíÊ∏°„Åô„ÅÆ„ÅåÊ≠£Ëß£„Åß„Åô
+    return WinMain(GetModuleHandle(nullptr), nullptr, const_cast<LPSTR>(""), SW_SHOW);
 }
 #endif

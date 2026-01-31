@@ -1,38 +1,38 @@
-// ƒJƒƒ‰§ŒäƒNƒ‰ƒX
+ï»¿// ã‚«ãƒ¡ãƒ©åˆ¶å¾¡ã‚¯ãƒ©ã‚¹
 
 #include "camera.h"
 #include <cmath>
 
 namespace {
-    // ’è”
-    constexpr float eyeMoveSpeed_ = 0.06f;  // ƒJƒƒ‰ˆÚ“®‘¬“x
-    constexpr float destTargetToView_ = -5.0f;  // ’‹“_‚©‚çƒJƒƒ‰‚Ü‚Å‚Ì‹——£
+    // å®šæ•°
+    constexpr float eyeMoveSpeed_ = 0.06f;  // ã‚«ãƒ¡ãƒ©ç§»å‹•é€Ÿåº¦
+    constexpr float destTargetToView_ = -5.0f;  // æ³¨è¦–ç‚¹ã‹ã‚‰ã‚«ãƒ¡ãƒ©ã¾ã§ã®è·é›¢
 }  // namespace
 
 //---------------------------------------------------------------------------------
 /**
- * @brief    ƒJƒƒ‰‚ğ‰Šú‰»‚·‚é
+ * @brief    ã‚«ãƒ¡ãƒ©ã‚’åˆæœŸåŒ–ã™ã‚‹
  */
 void Camera::initialize() noexcept {
-    // ƒJƒƒ‰‚ÌˆÊ’u‚ğİ’è
+    // ã‚«ãƒ¡ãƒ©ã®ä½ç½®ã‚’è¨­å®š
     position_ = DirectX::XMFLOAT3(0.0f, 0.0f, destTargetToView_);
-    // ƒJƒƒ‰‚Ì’‹“_‚ğİ’è
+    // ã‚«ãƒ¡ãƒ©ã®æ³¨è¦–ç‚¹ã‚’è¨­å®š
     target_ = DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f);
-    // ƒJƒƒ‰‚Ìã•ûŒü‚ğİ’è
+    // ã‚«ãƒ¡ãƒ©ã®ä¸Šæ–¹å‘ã‚’è¨­å®š
     up_ = DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f);
 
-    // ƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñ‚Ìİ’è
+    // ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³è¡Œåˆ—ã®è¨­å®š
     projection_ = DirectX::XMMatrixPerspectiveFovLH(
-        DirectX::XM_PIDIV4,  // ‹–ìŠp45“x
-        1280.0f / 720.0f,    // ƒAƒXƒyƒNƒg”ä
-        0.1f,                // ƒjƒAƒNƒŠƒbƒv
-        100.0f               // ƒtƒ@[ƒNƒŠƒbƒv
+        DirectX::XM_PIDIV4,  // è¦–é‡è§’45åº¦
+        1280.0f / 720.0f,    // ã‚¢ã‚¹ãƒšã‚¯ãƒˆæ¯”
+        0.1f,                // ãƒ‹ã‚¢ã‚¯ãƒªãƒƒãƒ—
+        100.0f               // ãƒ•ã‚¡ãƒ¼ã‚¯ãƒªãƒƒãƒ—
     );
 }
 
 //---------------------------------------------------------------------------------
 /**
- * @brief    ƒJƒƒ‰‚ğXV‚·‚é
+ * @brief    ã‚«ãƒ¡ãƒ©ã‚’æ›´æ–°ã™ã‚‹
  */
 void Camera::update() noexcept {
     static float angle = 0.0f;
@@ -40,7 +40,7 @@ void Camera::update() noexcept {
     position_.x = destTargetToView_ * std::sinf(angle);
     position_.z = destTargetToView_ * std::cosf(angle);
 
-    // ƒrƒ…[s—ñ‚ÌŒvZ
+    // ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—ã®è¨ˆç®—
     view_ = DirectX::XMMatrixLookAtLH(
         DirectX::XMLoadFloat3(&position_),
         DirectX::XMLoadFloat3(&target_),
@@ -49,8 +49,8 @@ void Camera::update() noexcept {
 
 //---------------------------------------------------------------------------------
 /**
- * @brief   ƒJƒƒ‰‚Ìƒrƒ…[s—ñ‚ğæ“¾‚·‚é
- * @return	ƒrƒ…[s—ñ
+ * @brief   ã‚«ãƒ¡ãƒ©ã®ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—ã‚’å–å¾—ã™ã‚‹
+ * @return	ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—
  */
 [[nodiscard]] DirectX::XMMATRIX XM_CALLCONV Camera::viewMatrix() const noexcept {
     return view_;
@@ -58,8 +58,8 @@ void Camera::update() noexcept {
 
 //---------------------------------------------------------------------------------
 /**
- * @brief   ƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñ‚ğæ“¾‚·‚é
- * @return	ƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñ
+ * @brief   ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³è¡Œåˆ—ã‚’å–å¾—ã™ã‚‹
+ * @return	ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³è¡Œåˆ—
  */
 [[nodiscard]] DirectX::XMMATRIX XM_CALLCONV Camera::projection() const noexcept {
     return projection_;

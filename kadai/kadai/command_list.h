@@ -1,52 +1,43 @@
-// ƒRƒ}ƒ“ƒhƒŠƒXƒg§ŒäƒNƒ‰ƒX
-
-#pragma once
+ï»¿#pragma once
 
 #include "device.h"
 #include "command_allocator.h"
 
-//---------------------------------------------------------------------------------
 /**
- * @brief	ƒRƒ}ƒ“ƒhƒŠƒXƒg§ŒäƒNƒ‰ƒX
+ * @brief ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆåˆ¶å¾¡ã‚¯ãƒ©ã‚¹
  */
 class CommandList final {
 public:
-    //---------------------------------------------------------------------------------
     /**
-     * @brief    ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * @brief ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     CommandList() = default;
 
-    //---------------------------------------------------------------------------------
     /**
-     * @brief    ƒfƒXƒgƒ‰ƒNƒ^
+     * @brief ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     ~CommandList();
 
-    //---------------------------------------------------------------------------------
     /**
-     * @brief	ƒRƒ}ƒ“ƒhƒŠƒXƒgì¬
-     * @param	device	ƒfƒoƒCƒXƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
-     * @param	command	ƒRƒ}ƒ“ƒhƒAƒƒP[ƒ^ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
-     * @return	¶¬‚Ì¬”Û
+     * @brief ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆä½œæˆ
+     * @param device ãƒ‡ãƒã‚¤ã‚¹ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+     * @param commandAllocator ã‚³ãƒãƒ³ãƒ‰ã‚¢ãƒ­ã‚±ãƒ¼ã‚¿ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+     * @return ç”Ÿæˆã®æˆå¦
      */
     [[nodiscard]] bool create(const Device& device, const CommandAllocator& commandAllocator) noexcept;
 
-    //---------------------------------------------------------------------------------
     /**
-     * @brief	ƒRƒ}ƒ“ƒhƒŠƒXƒg‚ÌƒŠƒZƒbƒg
-     * @param	commandAllocator	ƒRƒ}ƒ“ƒhƒAƒƒP[ƒ^ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
+     * @brief ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆã®ãƒªã‚»ãƒƒãƒˆ
+     * @param commandAllocator ã‚³ãƒãƒ³ãƒ‰ã‚¢ãƒ­ã‚±ãƒ¼ã‚¿ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
      */
     void reset(const CommandAllocator& commandAllocator) noexcept;
 
-    //---------------------------------------------------------------------------------
     /**
-     * @brief	ƒRƒ}ƒ“ƒhƒŠƒXƒg‚ğæ“¾‚·‚é
-     * @return	ƒRƒ}ƒ“ƒhƒŠƒXƒg‚Ìƒ|ƒCƒ“ƒ^
+     * @brief ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹
+     * @return ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆã®ãƒã‚¤ãƒ³ã‚¿
      */
     [[nodiscard]] ID3D12GraphicsCommandList* get() const noexcept;
 
-
 private:
-    ID3D12GraphicsCommandList* commandList_{};       /// ƒRƒ}ƒ“ƒhƒŠƒXƒg
+    ID3D12GraphicsCommandList* commandList_{}; /// ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆ
 };

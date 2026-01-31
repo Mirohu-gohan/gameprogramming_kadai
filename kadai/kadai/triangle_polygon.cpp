@@ -1,4 +1,4 @@
-// OŠpŒ`ƒ|ƒŠƒSƒ“ƒNƒ‰ƒX
+ï»¿// ä¸‰è§’å½¢ãƒãƒªã‚´ãƒ³ã‚¯ãƒ©ã‚¹
 
 #include "triangle_polygon.h"
 #include <cassert>
@@ -9,26 +9,26 @@ namespace {
 
     //---------------------------------------------------------------------------------
     /**
-     * @brief    ’¸“_ƒoƒbƒtƒ@ƒtƒH[ƒ}ƒbƒg
+     * @brief    é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ
      */
     struct Vertex {
-        DirectX::XMFLOAT3 position;  // ’¸“_À•Wix, y, zj
-        DirectX::XMFLOAT4 color;     // ’¸“_Fir, g, b, aj
+        DirectX::XMFLOAT3 position;  // é ‚ç‚¹åº§æ¨™ï¼ˆx, y, zï¼‰
+        DirectX::XMFLOAT4 color;     // é ‚ç‚¹è‰²ï¼ˆr, g, b, aï¼‰
     };
 }  // namespace
 
 //---------------------------------------------------------------------------------
 /**
- * @brief    ƒfƒXƒgƒ‰ƒNƒ^
+ * @brief    ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
  */
 TrianglePolygon::~TrianglePolygon() {
-    // ’¸“_ƒoƒbƒtƒ@‚Ì‰ğ•ú
+    // é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®è§£æ”¾
     if (vertexBuffer_) {
         vertexBuffer_->Release();
         vertexBuffer_ = nullptr;
     }
 
-    // ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚Ì‰ğ•ú
+    // ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã®è§£æ”¾
     if (indexBuffer_) {
         indexBuffer_->Release();
         indexBuffer_ = nullptr;
@@ -37,16 +37,16 @@ TrianglePolygon::~TrianglePolygon() {
 
 //---------------------------------------------------------------------------------
 /**
- * @brief	ƒ|ƒŠƒSƒ“‚Ì¶¬
- * @param	device	ƒfƒoƒCƒXƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
- * @return	¬Œ÷‚·‚ê‚Î true
+ * @brief	ãƒãƒªã‚´ãƒ³ã®ç”Ÿæˆ
+ * @param	device	ãƒ‡ãƒã‚¤ã‚¹ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+ * @return	æˆåŠŸã™ã‚Œã° true
  */
 [[nodiscard]] bool TrianglePolygon::create(const Device& device) noexcept {
-    // ’¸“_ƒoƒbƒtƒ@‚Ì¶¬
+    // é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
     if (!createVertexBuffer(device)) {
         return false;
     }
-    // ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚Ì¶¬
+    // ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
     if (!createIndexBuffer(device)) {
         return false;
     }
@@ -56,23 +56,23 @@ TrianglePolygon::~TrianglePolygon() {
 
 //---------------------------------------------------------------------------------
 /**
- * @brief	’¸“_ƒoƒbƒtƒ@‚Ì¶¬
- * @param	device	ƒfƒoƒCƒXƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
- * @return	¬Œ÷‚·‚ê‚Î true
+ * @brief	é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
+ * @param	device	ãƒ‡ãƒã‚¤ã‚¹ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+ * @return	æˆåŠŸã™ã‚Œã° true
  */
 [[nodiscard]] bool TrianglePolygon::createVertexBuffer(const Device& device) noexcept {
-    // ¡‰ñ—˜—p‚·‚éOŠpŒ`‚Ì’¸“_ƒf[ƒ^
+    // ä»Šå›åˆ©ç”¨ã™ã‚‹ä¸‰è§’å½¢ã®é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿
     Vertex triangleVertices[] = {
-        {  {0.0f, 0.5f, 0.0f}, {1.0f, 0.0f, 0.0f, 1.0f}}, // ã’¸“_iÔFj
-        { {0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f, 1.0f}}, // ‰E‰º’¸“_i—ÎFj
-        {{-0.5f, -0.5f, 0.0f}, {0.0f, 0.0f, 1.0f, 1.0f}}  // ¶‰º’¸“_iÂFj
+        {  {0.0f, 0.5f, 0.0f}, {1.0f, 0.0f, 0.0f, 1.0f}}, // ä¸Šé ‚ç‚¹ï¼ˆèµ¤è‰²ï¼‰
+        { {0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f, 1.0f}}, // å³ä¸‹é ‚ç‚¹ï¼ˆç·‘è‰²ï¼‰
+        {{-0.5f, -0.5f, 0.0f}, {0.0f, 0.0f, 1.0f, 1.0f}}  // å·¦ä¸‹é ‚ç‚¹ï¼ˆé’è‰²ï¼‰
     };
 
-    // ’¸“_ƒf[ƒ^‚ÌƒTƒCƒY
+    // é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã®ã‚µã‚¤ã‚º
     const auto vertexBufferSize = sizeof(triangleVertices);
 
-    // ƒq[ƒv‚Ìİ’è‚ğw’è
-    // CPU ‚©‚çƒAƒNƒZƒX‰Â”\‚Èƒƒ‚ƒŠ‚ğ—˜—p‚·‚éˆ×‚Ìİ’è
+    // ãƒ’ãƒ¼ãƒ—ã®è¨­å®šã‚’æŒ‡å®š
+    // CPU ã‹ã‚‰ã‚¢ã‚¯ã‚»ã‚¹å¯èƒ½ãªãƒ¡ãƒ¢ãƒªã‚’åˆ©ç”¨ã™ã‚‹ç‚ºã®è¨­å®š
     D3D12_HEAP_PROPERTIES heapProperty{};
     heapProperty.Type = D3D12_HEAP_TYPE_UPLOAD;
     heapProperty.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
@@ -80,7 +80,7 @@ TrianglePolygon::~TrianglePolygon() {
     heapProperty.CreationNodeMask = 1;
     heapProperty.VisibleNodeMask = 1;
 
-    // ‚Ç‚ñ‚ÈƒŠƒ\[ƒX‚ğì¬‚·‚é‚©‚Ìİ’è
+    // ã©ã‚“ãªãƒªã‚½ãƒ¼ã‚¹ã‚’ä½œæˆã™ã‚‹ã‹ã®è¨­å®š
     D3D12_RESOURCE_DESC resourceDesc{};
     resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
     resourceDesc.Alignment = 0;
@@ -94,7 +94,7 @@ TrianglePolygon::~TrianglePolygon() {
     resourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
     resourceDesc.Flags = D3D12_RESOURCE_FLAG_NONE;
 
-    // ’¸“_ƒoƒbƒtƒ@‚Ì¶¬
+    // é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
     auto res = device.get()->CreateCommittedResource(
         &heapProperty,
         D3D12_HEAP_FLAG_NONE,
@@ -103,52 +103,52 @@ TrianglePolygon::~TrianglePolygon() {
         nullptr,
         IID_PPV_ARGS(&vertexBuffer_));
     if (FAILED(res)) {
-        assert(false && "’¸“_ƒoƒbƒtƒ@‚Ìì¬‚É¸”s");
+        assert(false && "é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆã«å¤±æ•—");
         return false;
     }
 
-    // ’¸“_ƒoƒbƒtƒ@‚Éƒf[ƒ^‚ğ“]‘—‚·‚é
-    // CPU ‚©‚çƒAƒNƒZƒX‰Â”\‚ÈƒAƒhƒŒƒX‚ğæ“¾
+    // é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã«ãƒ‡ãƒ¼ã‚¿ã‚’è»¢é€ã™ã‚‹
+    // CPU ã‹ã‚‰ã‚¢ã‚¯ã‚»ã‚¹å¯èƒ½ãªã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’å–å¾—
     Vertex* data{};
 
-    // ƒoƒbƒtƒ@‚ğƒ}ƒbƒviCPU‚©‚çƒAƒNƒZƒX‰Â”\‚É‚·‚éj
-    // vertexBuffer_ ‚ğ’¼Ú—˜—p‚·‚é‚Ì‚Å‚Í‚È‚­Adata ‚ğ‰î‚µ‚ÄXV‚·‚éƒCƒ[ƒW
+    // ãƒãƒƒãƒ•ã‚¡ã‚’ãƒãƒƒãƒ—ï¼ˆCPUã‹ã‚‰ã‚¢ã‚¯ã‚»ã‚¹å¯èƒ½ã«ã™ã‚‹ï¼‰
+    // vertexBuffer_ ã‚’ç›´æ¥åˆ©ç”¨ã™ã‚‹ã®ã§ã¯ãªãã€data ã‚’ä»‹ã—ã¦æ›´æ–°ã™ã‚‹ã‚¤ãƒ¡ãƒ¼ã‚¸
     res = vertexBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&data));
     if (FAILED(res)) {
-        assert(false && "’¸“_ƒoƒbƒtƒ@‚Ìƒ}ƒbƒv‚É¸”s");
+        assert(false && "é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®ãƒãƒƒãƒ—ã«å¤±æ•—");
         return false;
     }
 
-    // ’¸“_ƒf[ƒ^‚ğƒRƒs[
+    // é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã‚’ã‚³ãƒ”ãƒ¼
     memcpy_s(data, vertexBufferSize, triangleVertices, vertexBufferSize);
 
-    // ƒRƒs[‚ªI‚í‚Á‚½‚Ì‚Åƒ}ƒbƒv‰ğœiCPU‚©‚çƒAƒNƒZƒX•s‰Â‚É‚·‚éj
-    // ‚±‚±‚Ü‚Å—ˆ‚½‚ç GPU ‚ª—˜—p‚·‚éƒƒ‚ƒŠ—ÌˆæiVRAMj‚ÉƒRƒs[Ï‚İ‚È‚Ì‚ÅAtriangleVertices ‚Í•s—v‚É‚È‚é
+    // ã‚³ãƒ”ãƒ¼ãŒçµ‚ã‚ã£ãŸã®ã§ãƒãƒƒãƒ—è§£é™¤ï¼ˆCPUã‹ã‚‰ã‚¢ã‚¯ã‚»ã‚¹ä¸å¯ã«ã™ã‚‹ï¼‰
+    // ã“ã“ã¾ã§æ¥ãŸã‚‰ GPU ãŒåˆ©ç”¨ã™ã‚‹ãƒ¡ãƒ¢ãƒªé ˜åŸŸï¼ˆVRAMï¼‰ã«ã‚³ãƒ”ãƒ¼æ¸ˆã¿ãªã®ã§ã€triangleVertices ã¯ä¸è¦ã«ãªã‚‹
     vertexBuffer_->Unmap(0, nullptr);
 
-    // ’¸“_ƒoƒbƒtƒ@ƒrƒ…[‚Ìİ’è
-    vertexBufferView_.BufferLocation = vertexBuffer_->GetGPUVirtualAddress();  // ’¸“_ƒoƒbƒtƒ@‚ÌƒAƒhƒŒƒX
-    vertexBufferView_.SizeInBytes = vertexBufferSize;                       // ’¸“_ƒoƒbƒtƒ@‚ÌƒTƒCƒY
-    vertexBufferView_.StrideInBytes = sizeof(Vertex);                         // 1’¸“_‚ ‚½‚è‚ÌƒTƒCƒY
+    // é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼ã®è¨­å®š
+    vertexBufferView_.BufferLocation = vertexBuffer_->GetGPUVirtualAddress();  // é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
+    vertexBufferView_.SizeInBytes = vertexBufferSize;                       // é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®ã‚µã‚¤ã‚º
+    vertexBufferView_.StrideInBytes = sizeof(Vertex);                         // 1é ‚ç‚¹ã‚ãŸã‚Šã®ã‚µã‚¤ã‚º
 
     return true;
 }
 
 //---------------------------------------------------------------------------------
 /**
- * @brief	ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚Ì¶¬
- * @param	device	ƒfƒoƒCƒXƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
- * @return	¬Œ÷‚·‚ê‚Î true
+ * @brief	ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
+ * @param	device	ãƒ‡ãƒã‚¤ã‚¹ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+ * @return	æˆåŠŸã™ã‚Œã° true
  */
 [[nodiscard]] bool TrianglePolygon::createIndexBuffer(const Device& device) noexcept {
     uint16_t triangleIndices[] = {
-        0, 1, 2  // OŠpŒ`‚ğ\¬‚·‚é’¸“_‚ÌƒCƒ“ƒfƒbƒNƒX
+        0, 1, 2  // ä¸‰è§’å½¢ã‚’æ§‹æˆã™ã‚‹é ‚ç‚¹ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
     };
 
-    // ƒCƒ“ƒfƒbƒNƒXƒf[ƒ^‚ÌƒTƒCƒY
+    // ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ‡ãƒ¼ã‚¿ã®ã‚µã‚¤ã‚º
     const auto indexBufferSize = sizeof(triangleIndices);
 
-    // ƒq[ƒv‚Ìİ’è‚ğw’è
+    // ãƒ’ãƒ¼ãƒ—ã®è¨­å®šã‚’æŒ‡å®š
     D3D12_HEAP_PROPERTIES heapProperty{};
     heapProperty.Type = D3D12_HEAP_TYPE_UPLOAD;
     heapProperty.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
@@ -156,7 +156,7 @@ TrianglePolygon::~TrianglePolygon() {
     heapProperty.CreationNodeMask = 1;
     heapProperty.VisibleNodeMask = 1;
 
-    // ƒŠƒ\[ƒX‚Ìİ’è‚ğs‚¤
+    // ãƒªã‚½ãƒ¼ã‚¹ã®è¨­å®šã‚’è¡Œã†
     D3D12_RESOURCE_DESC resourceDesc{};
     resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
     resourceDesc.Alignment = 0;
@@ -170,7 +170,7 @@ TrianglePolygon::~TrianglePolygon() {
     resourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
     resourceDesc.Flags = D3D12_RESOURCE_FLAG_NONE;
 
-    // ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚Ì¶¬
+    // ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
     auto res = device.get()->CreateCommittedResource(
         &heapProperty,
         D3D12_HEAP_FLAG_NONE,
@@ -179,42 +179,42 @@ TrianglePolygon::~TrianglePolygon() {
         nullptr,
         IID_PPV_ARGS(&indexBuffer_));
     if (FAILED(res)) {
-        assert(false && "ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚Ìì¬‚É¸”s");
+        assert(false && "ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆã«å¤±æ•—");
         return false;
     }
 
-    // ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚Éƒf[ƒ^‚ğ“]‘—‚·‚é
+    // ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã«ãƒ‡ãƒ¼ã‚¿ã‚’è»¢é€ã™ã‚‹
     uint16_t* data{};
     res = indexBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&data));
     if (FAILED(res)) {
-        assert(false && "ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚Ìƒ}ƒbƒv‚É¸”s");
+        assert(false && "ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã®ãƒãƒƒãƒ—ã«å¤±æ•—");
         return false;
     }
 
     memcpy_s(data, indexBufferSize, triangleIndices, indexBufferSize);
-    // ‚±‚±‚Ü‚Å—ˆ‚½‚ç GPU ‚ª—˜—p‚·‚éƒƒ‚ƒŠ—ÌˆæiVRAMj‚ÉƒRƒs[Ï‚İ‚È‚Ì‚ÅAtriangleIndices ‚Í•s—v‚É‚È‚é
+    // ã“ã“ã¾ã§æ¥ãŸã‚‰ GPU ãŒåˆ©ç”¨ã™ã‚‹ãƒ¡ãƒ¢ãƒªé ˜åŸŸï¼ˆVRAMï¼‰ã«ã‚³ãƒ”ãƒ¼æ¸ˆã¿ãªã®ã§ã€triangleIndices ã¯ä¸è¦ã«ãªã‚‹
     indexBuffer_->Unmap(0, nullptr);
 
-    // ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@ƒrƒ…[ì¬
+    // ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼ä½œæˆ
     indexBufferView_.BufferLocation = indexBuffer_->GetGPUVirtualAddress();
     indexBufferView_.SizeInBytes = indexBufferSize;
-    indexBufferView_.Format = DXGI_FORMAT_R16_UINT;  // triangleIndices ‚ÌŒ^‚ª 16bit •„†‚È‚µ®”‚È‚Ì‚Å R16_UINT
+    indexBufferView_.Format = DXGI_FORMAT_R16_UINT;  // triangleIndices ã®å‹ãŒ 16bit ç¬¦å·ãªã—æ•´æ•°ãªã®ã§ R16_UINT
 
     return true;
 }
 
 //---------------------------------------------------------------------------------
 /**
- * @brief	ƒ|ƒŠƒSƒ“‚Ì•`‰æ
- * @param	commandList	ƒRƒ}ƒ“ƒhƒŠƒXƒg
+ * @brief	ãƒãƒªã‚´ãƒ³ã®æç”»
+ * @param	commandList	ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆ
  */
 void TrianglePolygon::draw(const CommandList& commandList) noexcept {
-    // ’¸“_ƒoƒbƒtƒ@‚Ìİ’è
+    // é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®è¨­å®š
     commandList.get()->IASetVertexBuffers(0, 1, &vertexBufferView_);
-    // ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚Ìİ’è
+    // ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã®è¨­å®š
     commandList.get()->IASetIndexBuffer(&indexBufferView_);
-    // ƒvƒŠƒ~ƒeƒBƒuŒ`ó‚Ìİ’èiOŠpŒ`j
+    // ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å½¢çŠ¶ã®è¨­å®šï¼ˆä¸‰è§’å½¢ï¼‰
     commandList.get()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-    // •`‰æƒRƒ}ƒ“ƒh
+    // æç”»ã‚³ãƒãƒ³ãƒ‰
     commandList.get()->DrawIndexedInstanced(3, 1, 0, 0, 0);
 }
